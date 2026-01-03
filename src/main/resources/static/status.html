@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status dos Containers - Bookanga</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .status-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .status-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .service-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .status-badge {
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-up {
+            background: #10b981;
+            color: white;
+        }
+
+        .status-down {
+            background: #ef4444;
+            color: white;
+        }
+
+        .status-loading {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .service-message {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .timestamp {
+            text-align: center;
+            color: white;
+            margin-top: 30px;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .refresh-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 12px 30px;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .refresh-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .refresh-btn:active {
+            transform: scale(0.98);
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 4px solid #ef4444;
+        }
+
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            padding: 40px;
+        }
+
+        .status-icon {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .loading {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Status dos Serviços</h1>
+            <p>Monitoramento em tempo real - API Ecommerce Bookanga</p>
+        </div>
+
+        <div id="status-container">
+            <div class="loading">Carregando status dos serviços...</div>
+        </div>
+
+        <button class="refresh-btn" onclick="loadStatus()">🔄 Atualizar Status</button>
+
+        <div class="timestamp" id="last-update"></div>
+    </div>
+
+    <script>
+        async function loadStatus() {
+            const container = document.getElementById('status-container');
+            const lastUpdate = document.getElementById('last-update');
+            
+            try {
+                container.innerHTML = '<div class="loading">Carregando status dos serviços...</div>';
+                
+                const response = await fetch('/api/status');
+                const data = await response.json();
+                
+                let html = '';
+                
+                // Spring Boot Application Status
+                if (data.application) {
+                    html += createServiceCard(
+                        '🚀',
+                        data.application.name,
+                        data.application.status,
+                        data.application.message
+                    );
+                }
+                
+                // Database Status
+                if (data.database) {
+                    html += createServiceCard(
+                        '🐘',
+                        data.database.name,
+                        data.database.status,
+                        data.database.message
+                    );
+                }
+                
+                container.innerHTML = html;
+                
+                const timestamp = new Date(data.timestamp);
+                lastUpdate.textContent = `Última atualização: ${timestamp.toLocaleString('pt-BR')}`;
+                
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="status-card">
+                        <div class="error-message">
+                            <strong>❌ Erro ao carregar status:</strong><br>
+                            ${error.message}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        function createServiceCard(icon, name, status, message) {
+            const statusClass = status === 'UP' ? 'status-up' : 'status-down';
+            return `
+                <div class="status-card">
+                    <div class="service-header">
+                        <div class="service-name">
+                            <span class="status-icon">${icon}</span>
+                            ${name}
+                        </div>
+                        <span class="status-badge ${statusClass}">${status}</span>
+                    </div>
+                    <div class="service-message">${message}</div>
+                </div>
+            `;
+        }
+        
+        // Load status on page load
+        loadStatus();
+        
+        // Auto-refresh every 10 seconds
+        setInterval(loadStatus, 10000);
+    </script>
+</body>
+</html>

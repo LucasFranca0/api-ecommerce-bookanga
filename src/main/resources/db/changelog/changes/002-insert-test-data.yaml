@@ -1,0 +1,355 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-insert-test-data-books
+      author: bookanga
+      changes:
+        - insert:
+            tableName: product
+            columns:
+              - column:
+                  name: title
+                  value: "Dom Quixote"
+              - column:
+                  name: author
+                  value: "Miguel de Cervantes"
+              - column:
+                  name: publication_year
+                  valueNumeric: 1605
+              - column:
+                  name: price
+                  valueNumeric: 49.99
+              - column:
+                  name: isbn
+                  value: "978-1-234567-89-0"
+              - column:
+                  name: genre
+                  value: "Fiction"
+              - column:
+                  name: language
+                  value: "Portuguese"
+              - column:
+                  name: product_type
+                  value: "book"
+        - insert:
+            tableName: product
+            columns:
+              - column:
+                  name: title
+                  value: "A Metamorfose"
+              - column:
+                  name: author
+                  value: "Franz Kafka"
+              - column:
+                  name: publication_year
+                  valueNumeric: 1915
+              - column:
+                  name: price
+                  valueNumeric: 29.99
+              - column:
+                  name: isbn
+                  value: "978-1-234567-89-1"
+              - column:
+                  name: genre
+                  value: "Fiction"
+              - column:
+                  name: language
+                  value: "German"
+              - column:
+                  name: product_type
+                  value: "book"
+        - insert:
+            tableName: product
+            columns:
+              - column:
+                  name: title
+                  value: "O Senhor dos Anéis: A Sociedade do Anel"
+              - column:
+                  name: author
+                  value: "J.R.R. Tolkien"
+              - column:
+                  name: publication_year
+                  valueNumeric: 1954
+              - column:
+                  name: price
+                  valueNumeric: 59.99
+              - column:
+                  name: isbn
+                  value: "978-1-234567-89-2"
+              - column:
+                  name: genre
+                  value: "Fantasy"
+              - column:
+                  name: language
+                  value: "English"
+              - column:
+                  name: product_type
+                  value: "book"
+        - insert:
+            tableName: product
+            columns:
+              - column:
+                  name: title
+                  value: "1984"
+              - column:
+                  name: author
+                  value: "George Orwell"
+              - column:
+                  name: publication_year
+                  valueNumeric: 1949
+              - column:
+                  name: price
+                  valueNumeric: 39.90
+              - column:
+                  name: isbn
+                  value: "978-1-234567-89-3"
+              - column:
+                  name: genre
+                  value: "Dystopian"
+              - column:
+                  name: language
+                  value: "English"
+              - column:
+                  name: product_type
+                  value: "book"
+        - insert:
+            tableName: product
+            columns:
+              - column:
+                  name: title
+                  value: "Cem Anos de Solidão"
+              - column:
+                  name: author
+                  value: "Gabriel García Márquez"
+              - column:
+                  name: publication_year
+                  valueNumeric: 1967
+              - column:
+                  name: price
+                  valueNumeric: 44.50
+              - column:
+                  name: isbn
+                  value: "978-1-234567-89-4"
+              - column:
+                  name: genre
+                  value: "Magical Realism"
+              - column:
+                  name: language
+                  value: "Spanish"
+              - column:
+                  name: product_type
+                  value: "book"
+
+  - changeSet:
+      id: 002-insert-test-data-mangas
+      author: bookanga
+      changes:
+        - insert:
+            tableName: product
+            columns:
+              - column:
+                  name: title
+                  value: "One Piece Vol. 1"
+              - column:
+                  name: author
+                  value: "Eiichiro Oda"
+              - column:
+                  name: publication_year
+                  valueNumeric: 1997
+              - column:
+                  name: price
+                  valueNumeric: 12.99
+              - column:
+                  name: isbn
+                  value: "978-1-234567-90-0"
+              - column:
+                  name: genre
+                  value: "Shounen"
+              - column:
+                  name: language
+                  value: "Japanese"
+              - column:
+                  name: product_type
+                  value: "manga"
+              - column:
+                  name: volume
+                  valueNumeric: 1
+        - insert:
+            tableName: product
+            columns:
+              - column:
+                  name: title
+                  value: "Naruto Vol. 1"
+              - column:
+                  name: author
+                  value: "Masashi Kishimoto"
+              - column:
+                  name: publication_year
+                  valueNumeric: 1999
+              - column:
+                  name: price
+                  valueNumeric: 9.99
+              - column:
+                  name: isbn
+                  value: "978-1-234567-90-1"
+              - column:
+                  name: genre
+                  value: "Shounen"
+              - column:
+                  name: language
+                  value: "Japanese"
+              - column:
+                  name: product_type
+                  value: "manga"
+              - column:
+                  name: volume
+                  valueNumeric: 1
+        - insert:
+            tableName: product
+            columns:
+              - column:
+                  name: title
+                  value: "Berserk Vol. 1"
+              - column:
+                  name: author
+                  value: "Kentaro Miura"
+              - column:
+                  name: publication_year
+                  valueNumeric: 1990
+              - column:
+                  name: price
+                  valueNumeric: 14.99
+              - column:
+                  name: isbn
+                  value: "978-1-234567-90-2"
+              - column:
+                  name: genre
+                  value: "Seinen"
+              - column:
+                  name: language
+                  value: "Japanese"
+              - column:
+                  name: product_type
+                  value: "manga"
+              - column:
+                  name: volume
+                  valueNumeric: 1
+        - insert:
+            tableName: product
+            columns:
+              - column:
+                  name: title
+                  value: "Attack on Titan Vol. 1"
+              - column:
+                  name: author
+                  value: "Hajime Isayama"
+              - column:
+                  name: publication_year
+                  valueNumeric: 2009
+              - column:
+                  name: price
+                  valueNumeric: 11.99
+              - column:
+                  name: isbn
+                  value: "978-1-234567-90-3"
+              - column:
+                  name: genre
+                  value: "Shounen"
+              - column:
+                  name: language
+                  value: "Japanese"
+              - column:
+                  name: product_type
+                  value: "manga"
+              - column:
+                  name: volume
+                  valueNumeric: 1
+        - insert:
+            tableName: product
+            columns:
+              - column:
+                  name: title
+                  value: "Death Note Vol. 1"
+              - column:
+                  name: author
+                  value: "Tsugumi Ohba"
+              - column:
+                  name: publication_year
+                  valueNumeric: 2003
+              - column:
+                  name: price
+                  valueNumeric: 10.99
+              - column:
+                  name: isbn
+                  value: "978-1-234567-90-4"
+              - column:
+                  name: genre
+                  value: "Shounen"
+              - column:
+                  name: language
+                  value: "Japanese"
+              - column:
+                  name: product_type
+                  value: "manga"
+              - column:
+                  name: volume
+                  valueNumeric: 1
+        - insert:
+            tableName: product
+            columns:
+              - column:
+                  name: title
+                  value: "Fullmetal Alchemist Vol. 1"
+              - column:
+                  name: author
+                  value: "Hiromu Arakawa"
+              - column:
+                  name: publication_year
+                  valueNumeric: 2001
+              - column:
+                  name: price
+                  valueNumeric: 10.50
+              - column:
+                  name: isbn
+                  value: "978-1-234567-90-5"
+              - column:
+                  name: genre
+                  value: "Shounen"
+              - column:
+                  name: language
+                  value: "Japanese"
+              - column:
+                  name: product_type
+                  value: "manga"
+              - column:
+                  name: volume
+                  valueNumeric: 1
+        - insert:
+            tableName: product
+            columns:
+              - column:
+                  name: title
+                  value: "My Hero Academia Vol. 1"
+              - column:
+                  name: author
+                  value: "Kohei Horikoshi"
+              - column:
+                  name: publication_year
+                  valueNumeric: 2014
+              - column:
+                  name: price
+                  valueNumeric: 9.99
+              - column:
+                  name: isbn
+                  value: "978-1-234567-90-6"
+              - column:
+                  name: genre
+                  value: "Shounen"
+              - column:
+                  name: language
+                  value: "Japanese"
+              - column:
+                  name: product_type
+                  value: "manga"
+              - column:
+                  name: volume
+                  valueNumeric: 1

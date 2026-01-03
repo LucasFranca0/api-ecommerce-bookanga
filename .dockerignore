@@ -1,0 +1,15 @@
+target/
+.git/
+.idea/
+*.iml
+.vscode/
+.DS_Store
+*.log
+.env
+README*.md
+utils/MIGRATION_SUMMARY.md
+utils/QUICK_START.md
+*.md
+docker-compose.yml
+Dockerfile
+.dockerignore

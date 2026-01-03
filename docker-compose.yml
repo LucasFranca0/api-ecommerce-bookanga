@@ -1,0 +1,44 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: bookanga-postgres
+    environment:
+      POSTGRES_DB: bookanga_db
+      POSTGRES_USER: bookanga
+      POSTGRES_PASSWORD: bookanga123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - bookanga-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bookanga -d bookanga_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bookanga-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/bookanga_db
+      SPRING_DATASOURCE_USERNAME: bookanga
+      SPRING_DATASOURCE_PASSWORD: bookanga123
+    ports:
+      - "8080:8080"
+    networks:
+      - bookanga-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  bookanga-network:
+    driver: bridge

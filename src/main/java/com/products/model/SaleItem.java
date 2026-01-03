@@ -3,8 +3,8 @@ package com.products.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Data

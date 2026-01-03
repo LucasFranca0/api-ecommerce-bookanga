@@ -3,9 +3,9 @@ package com.products.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
-import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 @Data
