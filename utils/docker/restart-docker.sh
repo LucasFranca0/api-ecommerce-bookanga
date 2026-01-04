@@ -78,8 +78,9 @@ stop_existing_containers() {
     
     if docker compose ps | grep -q "bookanga"; then
         echo -e "${YELLOW}⏸️  Parando containers existentes...${NC}"
-        docker compose down
-        echo -e "${GREEN}✅ Containers parados${NC}"
+        echo -e "${YELLOW}🗑️  Removendo volumes para limpar banco de dados e Liquibase...${NC}"
+        docker compose down -v
+        echo -e "${GREEN}✅ Containers parados e volumes removidos${NC}"
     else
         echo -e "${GREEN}✅ Nenhum container em execução${NC}"
     fi
