@@ -25,18 +25,19 @@ public abstract class Product {
 
     @Column(name = "volume")
     @Positive(message = "O volume deve ser maior que zero")
+    @JsonProperty("volume")
     private Integer volume;
 
     @Column(nullable = false, length = 50)
     @NotBlank(message = "O autor do livro é obrigatório")
     private String author;
 
-    @Column(nullable = false, length = 4)
+    @Column(name = "publication_year", nullable = false)
     @NotNull(message = "O ano de publicação é obrigatório")
     @PastOrPresent(message = "O ano de publicação deve ser no passado ou presente")
-    @Digits(integer = 4, fraction = 0, message = "O ano de publicação deve conter no mínimo 4 dígitos")
     @Min(value = 1000, message = "O ano de publicação deve ser maior ou igual a 1000")
-    private Integer publication_year;
+    @JsonProperty("publicationYear")
+    private Integer publicationYear;
 
     @Column(nullable = false, length = 50)
     @NotBlank(message = "O gênero do livro é obrigatório")

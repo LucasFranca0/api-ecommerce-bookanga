@@ -9,6 +9,7 @@
 /home/lucas/IdeaProjects/api-ecommerce-bookanga/src/main/java/com/products/dto/ProductDTO.java
 /home/lucas/IdeaProjects/api-ecommerce-bookanga/src/main/java/com/products/exception/ProductNotFoundException.java
 /home/lucas/IdeaProjects/api-ecommerce-bookanga/src/main/java/com/products/model/User.java
+/home/lucas/IdeaProjects/api-ecommerce-bookanga/src/main/java/com/products/controller/StatusController.java
 /home/lucas/IdeaProjects/api-ecommerce-bookanga/src/main/java/com/products/model/SaleItem.java
 /home/lucas/IdeaProjects/api-ecommerce-bookanga/src/main/java/com/products/model/Sale.java
 /home/lucas/IdeaProjects/api-ecommerce-bookanga/src/main/java/com/products/model/Product.java
