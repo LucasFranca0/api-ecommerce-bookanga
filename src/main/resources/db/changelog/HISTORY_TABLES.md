@@ -68,9 +68,9 @@ Tabela específica para rastrear alterações de preço.
 
 ## Triggers Automáticos
 
-Foram criados triggers PostgreSQL para automaticamente popular as tabelas de histórico:
+Foi criado o trigger PostgreSQL abaixo para automaticamente popular as tabelas de histórico:
 
-1. **product_history_trigger**: Dispara após INSERT, UPDATE ou DELETE na tabela `product`
+- **product_history_trigger**: Dispara após INSERT, UPDATE ou DELETE na tabela `product`
 
 ## Índices Criados
 

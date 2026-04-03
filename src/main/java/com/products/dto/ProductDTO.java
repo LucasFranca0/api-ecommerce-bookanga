@@ -5,6 +5,7 @@ import lombok.Data;
 
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
+import java.time.Year;
 
 @Data
 public class ProductDTO {
@@ -19,7 +20,6 @@ public class ProductDTO {
     private String author;
 
     @NotNull(message = "O ano de publicação é obrigatório.")
-    @PastOrPresent(message = "O ano de publicação deve ser no passado ou presente.")
     @Min(value = 1000, message = "O ano de publicação deve ser maior ou igual a 1000.")
     private Integer publicationYear;
 
@@ -45,5 +45,10 @@ public class ProductDTO {
     private String productType;
 
     private Integer volume;
+
+    @AssertTrue(message = "O ano de publicação deve ser no passado ou presente.")
+    private boolean isPublicationYearValid() {
+        return publicationYear == null || publicationYear <= Year.now().getValue();
+    }
 
 }
