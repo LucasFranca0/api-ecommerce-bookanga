@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +36,7 @@ public class ProductService {
         }
 
         // Cria o tipo correto baseado no productType
-        Product product = switch (productDTO.getProductType().toLowerCase()) {
+        Product product = switch (productDTO.getProductType().toLowerCase(Locale.ROOT)) {
             case "book", "livro" -> new Book();
             case "manga" -> new Manga();
             default -> throw new InvalidProductDataException(

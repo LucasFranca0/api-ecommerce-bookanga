@@ -12,9 +12,9 @@
 4. Clique em **Import**
 
 ### Método 2: Via Link
-1. Copie o caminho completo:
+1. Use o caminho do arquivo dentro do repositório:
    ```bash
-   /home/lucas/IdeaProjects/api-ecommerce-bookanga/postman/Bookanga-API.postman_collection.json
+   postman/Bookanga-API.postman_collection.json
    ```
 2. No Postman, vá em **Import → Upload Files**
 3. Selecione o arquivo
@@ -27,11 +27,11 @@
 
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
-| GET | `/api/products` | Lista todos os produtos |
-| GET | `/api/products/{id}` | Busca produto por ID |
-| POST | `/api/products` | Cria novo produto |
-| PUT | `/api/products/{id}` | Atualiza produto |
-| DELETE | `/api/products/{id}` | Deleta produto |
+| GET | `/api/v1/products` | Lista todos os produtos |
+| GET | `/api/v1/products/{id}` | Busca produto por ID |
+| POST | `/api/v1/products` | Cria novo produto |
+| PUT | `/api/v1/products/{id}` | Atualiza produto |
+| DELETE | `/api/v1/products/{id}` | Deleta produto |
 
 ### 📊 Monitoring
 
@@ -48,7 +48,7 @@
 
 ### 1. Listar todos os produtos
 ```http
-GET http://localhost:8080/api/products
+GET http://localhost:8080/api/v1/products
 ```
 
 **Resposta:**
@@ -70,7 +70,7 @@ GET http://localhost:8080/api/products
 
 ### 2. Criar um livro
 ```http
-POST http://localhost:8080/api/products
+POST http://localhost:8080/api/v1/products
 Content-Type: application/json
 
 {
@@ -87,7 +87,7 @@ Content-Type: application/json
 
 ### 3. Criar um mangá
 ```http
-POST http://localhost:8080/api/products
+POST http://localhost:8080/api/v1/products
 Content-Type: application/json
 
 {
@@ -105,7 +105,7 @@ Content-Type: application/json
 
 ### 4. Buscar produto por ID
 ```http
-GET http://localhost:8080/api/products/1
+GET http://localhost:8080/api/v1/products/1
 ```
 
 ### 5. Verificar status da API

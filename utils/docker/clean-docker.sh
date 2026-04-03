@@ -1,4 +1,4 @@
-22#!/bin/bash
+#!/bin/bash
 
 # Script para limpar completamente o Docker
 # Remove containers, imagens, volumes, networks e cache
@@ -127,6 +127,6 @@ echo -e "   • Para listar containers: ${YELLOW}docker ps -a${NC}"
 echo -e "   • Para listar volumes: ${YELLOW}docker volume ls${NC}"
 echo ""
 echo -e "${BLUE}Para reconstruir o ambiente Bookanga:${NC}"
-echo -e "   ${GREEN}cd /home/lucas/IdeaProjects/api-ecommerce-bookanga${NC}"
+echo -e "   ${GREEN}cd $(git rev-parse --show-toplevel 2>/dev/null || pwd)${NC}"
 echo -e "   ${GREEN}docker compose up --build -d${NC}"
 echo ""

@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/v1/products")
+@RequestMapping({"/api/v1/products", "/api/products"})
 public class ProductController {
 
     // Injeção de dependencia para fornecer uma instancia de service e podermos

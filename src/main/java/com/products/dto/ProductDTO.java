@@ -11,19 +11,20 @@ public class ProductDTO {
 
 
     @NotBlank(message = "O título é obrigatório.")
-    @Size(max = 255, message = "O título deve ter no máximo 255 caracteres.")
+    @Size(max = 70, message = "O título deve ter no máximo 70 caracteres.")
     private String title;
 
     @NotBlank(message = "O autor é obrigatório.")
-    @Size(max = 255, message = "O autor deve ter no máximo 255 caracteres.")
+    @Size(max = 50, message = "O autor deve ter no máximo 50 caracteres.")
     private String author;
 
-    @NotNull(message = "O ano de publicação e obrigatório")
-    @Min(value = 1000, message = "O ano de publicacao deve ser maior ou igual a 1000.")
+    @NotNull(message = "O ano de publicação é obrigatório.")
+    @PastOrPresent(message = "O ano de publicação deve ser no passado ou presente.")
+    @Min(value = 1000, message = "O ano de publicação deve ser maior ou igual a 1000.")
     private Integer publicationYear;
 
-    @NotNull(message = "O preço e obrigatório.")
-    @Positive(message = "O preco deve ser um valor positivo.")
+    @NotNull(message = "O preço é obrigatório.")
+    @Positive(message = "O preço deve ser um valor positivo.")
     private BigDecimal price;
 
     @NotBlank(message = "O ISBN é obrigatório.")

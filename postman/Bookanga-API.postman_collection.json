@@ -14,9 +14,9 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/products",
+              "raw": "{{base_url}}/api/v1/products",
               "host": ["{{base_url}}"],
-              "path": ["api", "products"]
+              "path": ["api", "v1", "products"]
             },
             "description": "Retorna todos os produtos (livros e mangás)"
           },
@@ -28,9 +28,9 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/products/:id",
+              "raw": "{{base_url}}/api/v1/products/:id",
               "host": ["{{base_url}}"],
-              "path": ["api", "products", ":id"],
+              "path": ["api", "v1", "products", ":id"],
               "variable": [
                 {
                   "key": "id",
@@ -58,9 +58,9 @@
               "raw": "{\n  \"title\": \"Clean Code\",\n  \"author\": \"Robert C. Martin\",\n  \"publicationYear\": 2008,\n  \"price\": 89.90,\n  \"isbn\": \"978-0132350884\",\n  \"genre\": \"Programming\",\n  \"language\": \"Portuguese\",\n  \"product_type\": \"book\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/api/products",
+              "raw": "{{base_url}}/api/v1/products",
               "host": ["{{base_url}}"],
-              "path": ["api", "products"]
+              "path": ["api", "v1", "products"]
             },
             "description": "Cria um novo livro"
           },
@@ -81,9 +81,9 @@
               "raw": "{\n  \"title\": \"One Piece\",\n  \"author\": \"Eiichiro Oda\",\n  \"publicationYear\": 2020,\n  \"price\": 29.90,\n  \"isbn\": \"978-8545702887\",\n  \"genre\": \"Adventure\",\n  \"language\": \"Portuguese\",\n  \"volume\": 98,\n  \"product_type\": \"manga\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/api/products",
+              "raw": "{{base_url}}/api/v1/products",
               "host": ["{{base_url}}"],
-              "path": ["api", "products"]
+              "path": ["api", "v1", "products"]
             },
             "description": "Cria um novo mangá"
           },
@@ -104,9 +104,9 @@
               "raw": "{\n  \"title\": \"Clean Code - Updated\",\n  \"author\": \"Robert C. Martin\",\n  \"publicationYear\": 2008,\n  \"price\": 79.90,\n  \"isbn\": \"978-0132350884\",\n  \"genre\": \"Programming\",\n  \"language\": \"Portuguese\",\n  \"product_type\": \"book\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/api/products/:id",
+              "raw": "{{base_url}}/api/v1/products/:id",
               "host": ["{{base_url}}"],
-              "path": ["api", "products", ":id"],
+              "path": ["api", "v1", "products", ":id"],
               "variable": [
                 {
                   "key": "id",
@@ -124,9 +124,9 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/products/:id",
+              "raw": "{{base_url}}/api/v1/products/:id",
               "host": ["{{base_url}}"],
-              "path": ["api", "products", ":id"],
+              "path": ["api", "v1", "products", ":id"],
               "variable": [
                 {
                   "key": "id",

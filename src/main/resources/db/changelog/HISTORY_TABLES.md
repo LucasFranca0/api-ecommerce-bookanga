@@ -71,8 +71,6 @@ Tabela específica para rastrear alterações de preço.
 Foram criados triggers PostgreSQL para automaticamente popular as tabelas de histórico:
 
 1. **product_history_trigger**: Dispara após INSERT, UPDATE ou DELETE na tabela `product`
-2. **user_history_trigger**: Dispara após INSERT, UPDATE ou DELETE na tabela `users`
-3. **sale_history_trigger**: Dispara após INSERT, UPDATE ou DELETE na tabela `sale`
 
 ## Índices Criados
 
@@ -117,7 +115,7 @@ ORDER BY timestamp DESC;
 Execute o Liquibase para aplicar as migrações:
 
 ```bash
-cd /home/lucas/IdeaProjects/api-ecommerce-bookanga
+cd <repo-root>
 mvn liquibase:update
 ```
 
