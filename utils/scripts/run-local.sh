@@ -3,6 +3,7 @@ set -e
 
 SCRIPT_NAME="run-local.sh"
 LOG_FILE="logs/run-local-$(date +%Y%m%d-%H%M%S).log"
+PROJECT_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 
 mkdir -p logs
 
@@ -35,6 +36,14 @@ if ! pg_isready -h localhost -p 5432 > /dev/null 2>&1; then
         sleep 2
         counter=$((counter + 2))
     done
+fi
+
+if [ -f "$PROJECT_ROOT/.env.local" ]; then
+    echo "📄 Loading environment from .env.local" | tee -a "$LOG_FILE"
+    set -a
+    # shellcheck disable=SC1090
+    source "$PROJECT_ROOT/.env.local"
+    set +a
 fi
 
 echo "▶️  Running application..." | tee -a "$LOG_FILE"
