@@ -1,0 +1,60 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-create-product-trigger
+      author: bookanga
+      changes:
+        - sql:
+            dbms: postgresql
+            splitStatements: false
+            sql: |
+              -- Trigger function for product history
+              CREATE OR REPLACE FUNCTION product_history_trigger()
+              RETURNS TRIGGER AS $$
+              BEGIN
+                IF (TG_OP = 'DELETE') THEN
+                  INSERT INTO product_hist (
+                    product_id, title, author, publication_year, price, isbn,
+                    genre, language, product_type, volume, operation_type, changed_at, changes_json
+                  ) VALUES (
+                    OLD.id, OLD.title, OLD.author, OLD.publication_year, OLD.price, OLD.isbn,
+                    OLD.genre, OLD.language, OLD.product_type, OLD.volume, 'DELETE', CURRENT_TIMESTAMP,
+                    jsonb_build_object('old', row_to_json(OLD), 'new', NULL)
+                  );
+                  RETURN OLD;
+                ELSIF (TG_OP = 'UPDATE') THEN
+                  INSERT INTO product_hist (
+                    product_id, title, author, publication_year, price, isbn,
+                    genre, language, product_type, volume, operation_type, changed_at, changes_json
+                  ) VALUES (
+                    NEW.id, NEW.title, NEW.author, NEW.publication_year, NEW.price, NEW.isbn,
+                    NEW.genre, NEW.language, NEW.product_type, NEW.volume, 'UPDATE', CURRENT_TIMESTAMP,
+                    jsonb_build_object('old', row_to_json(OLD), 'new', row_to_json(NEW))
+                  );
+                  
+                  -- Track price changes separately
+                  IF (OLD.price != NEW.price) THEN
+                    INSERT INTO price_history (product_id, old_price, new_price, changed_at)
+                    VALUES (NEW.id, OLD.price, NEW.price, CURRENT_TIMESTAMP);
+                  END IF;
+                  
+                  RETURN NEW;
+                ELSIF (TG_OP = 'INSERT') THEN
+                  INSERT INTO product_hist (
+                    product_id, title, author, publication_year, price, isbn,
+                    genre, language, product_type, volume, operation_type, changed_at, changes_json
+                  ) VALUES (
+                    NEW.id, NEW.title, NEW.author, NEW.publication_year, NEW.price, NEW.isbn,
+                    NEW.genre, NEW.language, NEW.product_type, NEW.volume, 'INSERT', CURRENT_TIMESTAMP,
+                    jsonb_build_object('old', NULL, 'new', row_to_json(NEW))
+                  );
+                  RETURN NEW;
+                END IF;
+                RETURN NULL;
+              END;
+              $$ LANGUAGE plpgsql;
+
+              -- Create trigger
+              DROP TRIGGER IF EXISTS product_history_trigger ON product;
+              CREATE TRIGGER product_history_trigger
+              AFTER INSERT OR UPDATE OR DELETE ON product
+              FOR EACH ROW EXECUTE FUNCTION product_history_trigger();

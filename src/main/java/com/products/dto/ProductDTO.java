@@ -5,25 +5,25 @@ import lombok.Data;
 
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
+import java.time.Year;
 
 @Data
 public class ProductDTO {
 
 
     @NotBlank(message = "O título é obrigatório.")
-    @Size(max = 255, message = "O título deve ter no máximo 255 caracteres.")
+    @Size(max = 70, message = "O título deve ter no máximo 70 caracteres.")
     private String title;
 
     @NotBlank(message = "O autor é obrigatório.")
-    @Size(max = 255, message = "O autor deve ter no máximo 255 caracteres.")
+    @Size(max = 50, message = "O autor deve ter no máximo 50 caracteres.")
     private String author;
 
-    @NotNull(message = "O ano de publicação é obrigatório")
-    @PastOrPresent(message = "O ano de publicação deve ser no passado ou presente")
+    @NotNull(message = "O ano de publicação é obrigatório.")
     @Min(value = 1000, message = "O ano de publicação deve ser maior ou igual a 1000.")
-    @Max(value = 2023, message = "O ano de publicação deve ser menor ou igual a 2023.")
-    private Integer publication_year;
+    private Integer publicationYear;
 
+    @NotNull(message = "O preço é obrigatório.")
     @Positive(message = "O preço deve ser um valor positivo.")
     private BigDecimal price;
 
@@ -42,8 +42,13 @@ public class ProductDTO {
     @JsonProperty("product_type")
     @NotBlank(message = "O tipo de produto é obrigatório.")
     @Size(max = 50, message = "O tipo de produto deve ter no máximo 50 caracteres.")
-    private String product_type;
+    private String productType;
 
     private Integer volume;
+
+    @AssertTrue(message = "O ano de publicação deve ser no passado ou presente.")
+    private boolean isPublicationYearValid() {
+        return publicationYear == null || publicationYear <= Year.now().getValue();
+    }
 
 }

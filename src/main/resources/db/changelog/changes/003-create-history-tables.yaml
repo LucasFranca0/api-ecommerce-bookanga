@@ -1,0 +1,333 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-create-product-hist-table
+      author: bookanga
+      changes:
+        - createTable:
+            tableName: product_hist
+            columns:
+              - column:
+                  name: hist_id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: product_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+              - column:
+                  name: author
+                  type: VARCHAR(255)
+              - column:
+                  name: publication_year
+                  type: INTEGER
+              - column:
+                  name: price
+                  type: DECIMAL(10,2)
+              - column:
+                  name: isbn
+                  type: VARCHAR(20)
+              - column:
+                  name: genre
+                  type: VARCHAR(100)
+              - column:
+                  name: language
+                  type: VARCHAR(50)
+              - column:
+                  name: product_type
+                  type: VARCHAR(20)
+              - column:
+                  name: volume
+                  type: INTEGER
+              - column:
+                  name: operation_type
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+                  remarks: "INSERT, UPDATE, DELETE"
+              - column:
+                  name: changed_by
+                  type: VARCHAR(100)
+                  remarks: "User who made the change"
+              - column:
+                  name: changed_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: changes_json
+                  type: JSONB
+                  remarks: "JSON with old and new values"
+        - createIndex:
+            indexName: idx_product_hist_product_id
+            tableName: product_hist
+            columns:
+              - column:
+                  name: product_id
+        - createIndex:
+            indexName: idx_product_hist_changed_at
+            tableName: product_hist
+            columns:
+              - column:
+                  name: changed_at
+
+  - changeSet:
+      id: 003-create-user-hist-table
+      author: bookanga
+      changes:
+        - createTable:
+            tableName: user_hist
+            columns:
+              - column:
+                  name: hist_id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+              - column:
+                  name: email
+                  type: VARCHAR(100)
+              - column:
+                  name: operation_type
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+                  remarks: "INSERT, UPDATE, DELETE"
+              - column:
+                  name: changed_by
+                  type: VARCHAR(100)
+                  remarks: "User who made the change"
+              - column:
+                  name: changed_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: changes_json
+                  type: JSONB
+                  remarks: "JSON with old and new values"
+        - createIndex:
+            indexName: idx_user_hist_user_id
+            tableName: user_hist
+            columns:
+              - column:
+                  name: user_id
+        - createIndex:
+            indexName: idx_user_hist_changed_at
+            tableName: user_hist
+            columns:
+              - column:
+                  name: changed_at
+
+  - changeSet:
+      id: 003-create-sale-hist-table
+      author: bookanga
+      changes:
+        - createTable:
+            tableName: sale_hist
+            columns:
+              - column:
+                  name: hist_id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: sale_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  name: date
+                  type: TIMESTAMP
+              - column:
+                  name: total_price
+                  type: DECIMAL(10,2)
+              - column:
+                  name: operation_type
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+                  remarks: "INSERT, UPDATE, DELETE"
+              - column:
+                  name: changed_by
+                  type: VARCHAR(100)
+                  remarks: "User who made the change"
+              - column:
+                  name: changed_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: changes_json
+                  type: JSONB
+                  remarks: "JSON with old and new values"
+        - createIndex:
+            indexName: idx_sale_hist_sale_id
+            tableName: sale_hist
+            columns:
+              - column:
+                  name: sale_id
+        - createIndex:
+            indexName: idx_sale_hist_changed_at
+            tableName: sale_hist
+            columns:
+              - column:
+                  name: changed_at
+
+  - changeSet:
+      id: 003-create-audit-log-table
+      author: bookanga
+      changes:
+        - createTable:
+            tableName: audit_log
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: table_name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: record_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: operation_type
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+                  remarks: "INSERT, UPDATE, DELETE"
+              - column:
+                  name: user_email
+                  type: VARCHAR(100)
+                  remarks: "Email of user who made the change"
+              - column:
+                  name: ip_address
+                  type: VARCHAR(45)
+                  remarks: "IP address of the request"
+              - column:
+                  name: user_agent
+                  type: VARCHAR(255)
+                  remarks: "Browser/client user agent"
+              - column:
+                  name: old_values
+                  type: JSONB
+                  remarks: "JSON with old values before change"
+              - column:
+                  name: new_values
+                  type: JSONB
+                  remarks: "JSON with new values after change"
+              - column:
+                  name: timestamp
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: TEXT
+                  remarks: "Additional description of the operation"
+        - createIndex:
+            indexName: idx_audit_log_table_name
+            tableName: audit_log
+            columns:
+              - column:
+                  name: table_name
+        - createIndex:
+            indexName: idx_audit_log_record_id
+            tableName: audit_log
+            columns:
+              - column:
+                  name: record_id
+        - createIndex:
+            indexName: idx_audit_log_timestamp
+            tableName: audit_log
+            columns:
+              - column:
+                  name: timestamp
+        - createIndex:
+            indexName: idx_audit_log_user_email
+            tableName: audit_log
+            columns:
+              - column:
+                  name: user_email
+
+  - changeSet:
+      id: 003-create-price-history-table
+      author: bookanga
+      changes:
+        - createTable:
+            tableName: price_history
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: product_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: old_price
+                  type: DECIMAL(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: new_price
+                  type: DECIMAL(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: changed_by
+                  type: VARCHAR(100)
+              - column:
+                  name: changed_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: reason
+                  type: VARCHAR(255)
+                  remarks: "Reason for price change"
+        - createIndex:
+            indexName: idx_price_history_product_id
+            tableName: price_history
+            columns:
+              - column:
+                  name: product_id
+        - createIndex:
+            indexName: idx_price_history_changed_at
+            tableName: price_history
+            columns:
+              - column:
+                  name: changed_at
