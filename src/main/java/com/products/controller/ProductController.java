@@ -4,11 +4,11 @@ import com.products.dto.ProductDTO;
 import com.products.model.Product;
 import com.products.service.ProductService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -18,10 +18,14 @@ public class ProductController {
 
     // Injeção de dependencia para fornecer uma instancia de service e podermos
     // acessar os métodos de manipulação de dados
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
-    // Requisições
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
+    // ==================== CRUD BÁSICO ====================
+
     @GetMapping
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
@@ -55,6 +59,50 @@ public class ProductController {
     @DeleteMapping()
     public void deleteAllProducts(){
         productService.deleteAllProducts();
+    }
+
+    // ==================== ENDPOINTS DE BUSCA ====================
+
+    @GetMapping("/search/title")
+    public List<Product> searchByTitle(@RequestParam String keyword) {
+        return productService.findByTitleContaining(keyword);
+    }
+
+    @GetMapping("/search/author")
+    public List<Product> searchByAuthor(@RequestParam String keyword) {
+        return productService.findByAuthorContaining(keyword);
+    }
+
+    @GetMapping("/search/genre/{genre}")
+    public List<Product> findByGenre(@PathVariable String genre) {
+        return productService.findByGenre(genre);
+    }
+
+    @GetMapping("/search/language/{language}")
+    public List<Product> findByLanguage(@PathVariable String language) {
+        return productService.findByLanguage(language);
+    }
+
+    @GetMapping("/search/price")
+    public List<Product> findByPriceRange(
+            @RequestParam BigDecimal min,
+            @RequestParam BigDecimal max) {
+        return productService.findByPriceBetween(min, max);
+    }
+
+    @GetMapping("/top/newest")
+    public List<Product> findTop10Newest() {
+        return productService.findTop10Newest();
+    }
+
+    @GetMapping("/top/cheapest/{genre}")
+    public List<Product> findTop10CheapestByGenre(@PathVariable String genre) {
+        return productService.findTop10CheapestByGenre(genre);
+    }
+
+    @GetMapping("/count/genre/{genre}")
+    public long countByGenre(@PathVariable String genre) {
+        return productService.countByGenre(genre);
     }
 
 }

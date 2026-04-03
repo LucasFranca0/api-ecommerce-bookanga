@@ -18,13 +18,12 @@ public class ProductDTO {
     @Size(max = 255, message = "O autor deve ter no máximo 255 caracteres.")
     private String author;
 
-    @NotNull(message = "O ano de publicação é obrigatório")
-    @PastOrPresent(message = "O ano de publicação deve ser no passado ou presente")
-    @Min(value = 1000, message = "O ano de publicação deve ser maior ou igual a 1000.")
-    @Max(value = 2023, message = "O ano de publicação deve ser menor ou igual a 2023.")
-    private Integer publication_year;
+    @NotNull(message = "O ano de publicação e obrigatório")
+    @Min(value = 1000, message = "O ano de publicacao deve ser maior ou igual a 1000.")
+    private Integer publicationYear;
 
-    @Positive(message = "O preço deve ser um valor positivo.")
+    @NotNull(message = "O preço e obrigatório.")
+    @Positive(message = "O preco deve ser um valor positivo.")
     private BigDecimal price;
 
     @NotBlank(message = "O ISBN é obrigatório.")
@@ -42,7 +41,7 @@ public class ProductDTO {
     @JsonProperty("product_type")
     @NotBlank(message = "O tipo de produto é obrigatório.")
     @Size(max = 50, message = "O tipo de produto deve ter no máximo 50 caracteres.")
-    private String product_type;
+    private String productType;
 
     private Integer volume;
 

@@ -1,10 +1,4 @@
 # 📚 GUIA DE ESTUDOS - Projeto Bookanga
-
-> **Criado para:** Lucas  
-> **Baseado na:** Prova de Avaliação (Nota: 30/60 = 50%)  
-> **Nível atual:** 🟠 Básico  
-> **Objetivo:** Chegar ao nível 🟢 Avançado
-
 ---
 
 ## 🗺️ MAPA DE ESTUDOS
@@ -65,6 +59,8 @@ SEMANA 1                    SEMANA 2                    SEMANA 3                
 
 ### 📅 SEMANA 1: Fundamentos (7-10 horas)
 
+> 📖 **[VER ROTEIRO DETALHADO DA SEMANA 1](ROTEIRO_SEMANA_1.md)** ← Passo a passo completo!
+
 | Dia | Atividade | Tempo |
 |-----|-----------|-------|
 | Seg | Ler Módulo 1: Generics | 1.5h |
@@ -75,9 +71,9 @@ SEMANA 1                    SEMANA 2                    SEMANA 3                
 | Sáb | Revisar e anotar dúvidas | 1h |
 
 **Entregas da Semana 1:**
-- [ ] Refatorar `ProductController` para injeção por construtor
-- [ ] Usar `@RequiredArgsConstructor` no `ProductService`
-- [ ] Adicionar 3 Query Methods no `ProductRepository`
+- [x] Refatorar `ProductController` para injeção por construtor ✅ **CONCLUÍDO!**
+- [x] Usar `@RequiredArgsConstructor` no `ProductService` ✅ **CONCLUÍDO!**
+- [x] Adicionar 3 Query Methods no `ProductRepository` ✅ **CONCLUÍDO! (10 queries implementadas)**
 
 ---
 
@@ -132,6 +128,70 @@ SEMANA 1                    SEMANA 2                    SEMANA 3                
 
 ---
 
+## 📊 PROGRESSO ATUAL (Atualizado em 03/02/2026)
+
+### 🎉 Conquistas Recentes
+
+**✅ SEMANA 1 - CONCLUÍDA!**
+
+| Item | Status | Detalhes |
+|------|--------|----------|
+| Injeção por Construtor | ✅ | `ProductController` refatorado |
+| Lombok @RequiredArgsConstructor | ✅ | `ProductService` implementado |
+| Query Methods | ✅ | **10 queries** implementadas (meta era 3!) |
+| Documentação Confluence | ✅ | Guia completo criado |
+
+**🏆 Destaques:**
+- ✅ Você **superou a meta** de Query Methods (10 implementadas vs 3 pedidas)
+- ✅ Dominou: `Containing`, `IgnoreCase`, `Between`, `Top`, `OrderBy`
+- ✅ Criou documentação profissional para Confluence
+- ✅ Entendeu quando usar `Optional` vs `List` vs `boolean`
+
+### 📈 Progresso por Categoria
+
+| Categoria | Progresso | Próximo Passo |
+|-----------|-----------|---------------|
+| **Java Fundamentos** | 🟡 60% | Estudar Generics e Wrappers |
+| **Spring Framework** | 🟡 40% | Estudar IoC e DI em profundidade |
+| **JPA/Hibernate** | 🟢 70% | Estudar Relacionamentos (@ManyToOne, @OneToMany) |
+| **Docker** | 🔴 20% | Estudar Docker Compose |
+| **Liquibase** | 🔴 30% | Resolver erro de inicialização |
+| **API REST** | 🟡 50% | Boas práticas e validações |
+| **Testes** | 🔴 0% | Criar testes unitários |
+
+**Legenda:** 🟢 Avançado | 🟡 Intermediário | 🔴 Iniciante
+
+### 🎯 Métricas de Aprendizado
+
+```
+Módulos Estudados:    1/14  (Query Methods aprofundado)
+Horas de Estudo:      ~4h   (de 45-55h totais)
+Entregas Práticas:    3/3   (SEMANA 1 - 100%)
+Progresso Geral:      ~10%  
+```
+
+### 📝 O Que Você Domina Agora
+
+**✅ Query Methods (Spring Data JPA)**
+- Prefixos: `find`, `count`, `exists`, `delete`
+- Operadores: `Containing`, `IgnoreCase`, `Between`, `LessThan`, `GreaterThan`
+- Modificadores: `Top`, `OrderBy`, `Distinct`
+- Tipos de retorno: `Optional<T>`, `List<T>`, `boolean`, `long`
+- Quando usar Query Methods vs `@Query`
+
+**✅ Injeção de Dependência**
+- Injeção por construtor (melhor prática)
+- `@RequiredArgsConstructor` do Lombok
+- Campos `final` para imutabilidade
+
+**✅ JPA Básico**
+- Entidades com `@Entity`
+- Mapeamento de campos com `@Column`
+- Constraints (`unique`, `nullable`)
+- Repository pattern
+
+---
+
 ## 📊 PROGRESSO
 
 ### Checklist de Conceitos
@@ -146,16 +206,18 @@ SEMANA 1                    SEMANA 2                    SEMANA 3                
 #### Spring Framework
 - [ ] IoC (Inversão de Controle) ← Estudar!
 - [ ] Injeção de Dependência ← Estudar!
-- [x] @Service, @Repository, @Controller (parcial)
+- [x] @Service, @Repository, @Controller ✅
+- [x] Injeção por Construtor ✅
+- [x] @RequiredArgsConstructor (Lombok) ✅
 - [ ] @ControllerAdvice (parcial)
 - [ ] Bean Validation
 
 #### JPA/Hibernate
-- [x] Entities básicas
+- [x] Entities básicas ✅
 - [ ] Relacionamentos ← Estudar!
 - [ ] Cascade Types ← Estudar!
 - [ ] Fetch Types ← Estudar!
-- [ ] Query Methods
+- [x] Query Methods ✅ **DOMINADO!**
 
 #### Docker
 - [ ] Dockerfile ← Estudar!
@@ -167,6 +229,94 @@ SEMANA 1                    SEMANA 2                    SEMANA 3                
 - [x] Conceito básico
 - [ ] ChangeSets
 - [ ] Rollback
+
+---
+
+## 🎯 PRÓXIMOS PASSOS RECOMENDADOS
+
+### 🚀 Opção 1: Continuar Sequencial (Recomendado para Iniciantes)
+
+Seguir o plano da **SEMANA 2** - JPA e Relacionamentos:
+
+**Por quê?** Você já domina Query Methods, agora precisa entender como trabalhar com múltiplas tabelas relacionadas.
+
+**Estudar:**
+1. **Relacionamentos JPA** (`@ManyToOne`, `@OneToMany`)
+2. **Cascade Types** (quando deletar/salvar em cascata)
+3. **Fetch Types** (`LAZY` vs `EAGER`)
+4. **Queries com JOIN**
+
+**Arquivo:** `docs/estudo/03_JPA_RELACIONAMENTOS.md`
+
+**Entregável Prático:**
+- Entender como `Sale` se relaciona com `SaleItem`
+- Criar queries que buscam vendas com seus itens
+- Implementar paginação em listagens
+
+---
+
+### 🔥 Opção 2: Resolver Problemas Práticos
+
+Focar em **corrigir erros** e **melhorar o projeto** antes de estudar teoria:
+
+**Problemas para Resolver:**
+
+1. **Erro do Liquibase** (Alta Prioridade)
+   - Projeto não inicia corretamente
+   - Estudar: `05_LIQUIBASE.md`
+   - Corrigir changesets duplicados
+
+2. **Docker Compose** (Média Prioridade)
+   - Subir banco de dados com Docker
+   - Estudar: `04_DOCKER_COMPOSE.md`
+   - Simplificar desenvolvimento local
+
+3. **Validações de API** (Média Prioridade)
+   - Adicionar `@Valid` e Bean Validation
+   - Melhorar tratamento de erros
+   - Estudar: `06_API_REST.md`
+
+---
+
+### 📚 Opção 3: Fortalecer Fundamentos
+
+Voltar aos **conceitos base** antes de avançar:
+
+**Por quê?** Alguns conceitos fundamentais ainda não estão dominados (IoC, Generics).
+
+**Estudar:**
+1. **IoC e Injeção de Dependência** (Módulo 2)
+   - Entender o Spring Container
+   - Ciclo de vida dos Beans
+   - Tipos de injeção
+
+2. **Generics** (Módulo 1)
+   - Entender `List<Product>`, `Optional<Product>`
+   - Criar métodos genéricos
+   - Type safety
+
+3. **Lombok** (Módulo 1)
+   - Outras anotações úteis
+   - `@Data`, `@Builder`, `@Slf4j`
+
+---
+
+### 💡 Minha Recomendação Pessoal
+
+**HOJE (1-2h):**
+- ✅ Leia o `03_JPA_RELACIONAMENTOS.md` (seção sobre `@ManyToOne` e `@OneToMany`)
+- ✅ Entenda como `Sale` e `SaleItem` se relacionam no seu projeto
+
+**AMANHÃ (1-2h):**
+- ✅ Corrija o erro do Liquibase (use `05_LIQUIBASE.md`)
+- ✅ Faça o projeto inicializar sem erros
+
+**ESTA SEMANA:**
+- ✅ Complete a **SEMANA 2** do plano
+- ✅ Implemente paginação em `ProductRepository`
+- ✅ Crie queries que usem relacionamentos
+
+**Razão:** Você tem momentum com JPA, aproveite para dominar relacionamentos antes de mudar de contexto!
 
 ---
 

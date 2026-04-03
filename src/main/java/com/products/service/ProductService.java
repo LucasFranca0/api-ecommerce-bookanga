@@ -7,21 +7,17 @@ import com.products.model.Book;
 import com.products.model.Manga;
 import com.products.model.Product;
 import com.products.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
-
-    @Autowired
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
-
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
@@ -33,20 +29,21 @@ public class ProductService {
     }
 
     public Product createProduct(ProductDTO productDTO) {
-        // Realize todas as validações necessárias no DTO
+        // Valida dados obrigatorios
         if (productDTO.getTitle().trim().isEmpty() || productDTO.getAuthor().trim().isEmpty()) {
-            throw new InvalidProductDataException("Título e autor do livro/mangá são obrigatórios.");
+            throw new InvalidProductDataException("Título e autor do livro/manga são obrigatórios.");
         }
 
-        if (productDTO.getVolume() == null) {
-            Product book = new Book();
-            BeanUtils.copyProperties(productDTO, book);
-            return productRepository.save(book);
-        }
+        // Cria o tipo correto baseado no productType
+        Product product = switch (productDTO.getProductType().toLowerCase()) {
+            case "book", "livro" -> new Book();
+            case "manga" -> new Manga();
+            default -> throw new InvalidProductDataException(
+                "Tipo de produto inválido: " + productDTO.getProductType() + ". Use 'book' ou 'manga'.");
+        };
 
-        Product manga = new Manga();
-        BeanUtils.copyProperties(productDTO, manga);
-        return productRepository.save(manga);
+        BeanUtils.copyProperties(productDTO, product);
+        return productRepository.save(product);
     }
 
     public Product updateProduct(Long id, ProductDTO productDTO) {
@@ -69,5 +66,39 @@ public class ProductService {
 
     public void deleteAllProducts() {
         productRepository.deleteAll();
+    }
+
+    // ==================== SEARCH METHODS ====================
+
+    public List<Product> findByTitleContaining(String keyword) {
+        return productRepository.findByTitleContainingIgnoreCase(keyword);
+    }
+
+    public List<Product> findByAuthorContaining(String keyword) {
+        return productRepository.findByAuthorContainingIgnoreCase(keyword);
+    }
+
+    public List<Product> findByGenre(String genre) {
+        return productRepository.findByGenreIgnoreCase(genre);
+    }
+
+    public List<Product> findByLanguage(String language) {
+        return productRepository.findByLanguageIgnoreCase(language);
+    }
+
+    public List<Product> findByPriceBetween(BigDecimal minPrice, BigDecimal maxPrice) {
+        return productRepository.findByPriceBetween(minPrice, maxPrice);
+    }
+
+    public List<Product> findTop10Newest() {
+        return productRepository.findTop10ByOrderByPublicationYearDesc();
+    }
+
+    public List<Product> findTop10CheapestByGenre(String genre) {
+        return productRepository.findTop10ByGenreIgnoreCaseOrderByPriceAsc(genre);
+    }
+
+    public long countByGenre(String genre) {
+        return productRepository.countByGenreIgnoreCase(genre);
     }
 }
