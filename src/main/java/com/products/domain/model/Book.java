@@ -1,4 +1,4 @@
-package com.products.model;
+package com.products.domain.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -13,3 +13,4 @@ public class Book extends Product{
         return "book";
     }
 }
+

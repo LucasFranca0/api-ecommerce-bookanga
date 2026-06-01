@@ -1,6 +1,6 @@
-package com.products.repository;
+package com.products.infrastructure.repository;
 
-import com.products.model.Product;
+import com.products.domain.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -34,3 +34,4 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     long countByGenreIgnoreCase(String genre);
 
 }
+

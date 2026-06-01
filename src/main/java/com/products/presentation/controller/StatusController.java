@@ -1,4 +1,4 @@
-package com.products.controller;
+package com.products.presentation.controller;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class StatusController {
         status.put("timestamp", LocalDateTime.now());
         status.put("application", checkApplicationStatus());
         status.put("database", checkDatabaseStatus());
-        
+
         return ResponseEntity.ok(status);
     }
 
@@ -41,7 +41,7 @@ public class StatusController {
     private ServiceStatus checkDatabaseStatus() {
         ServiceStatus dbStatus = new ServiceStatus();
         dbStatus.setName("PostgreSQL");
-        
+
         try (Connection connection = dataSource.getConnection()) {
             if (connection.isValid(2)) {
                 dbStatus.setStatus("UP");
@@ -54,7 +54,7 @@ public class StatusController {
             dbStatus.setStatus("DOWN");
             dbStatus.setMessage("Database connection failed: " + e.getMessage());
         }
-        
+
         return dbStatus;
     }
 
@@ -65,3 +65,4 @@ public class StatusController {
         private String message;
     }
 }
+

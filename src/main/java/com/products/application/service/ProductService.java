@@ -1,12 +1,12 @@
-package com.products.service;
+package com.products.application.service;
 
-import com.products.dto.ProductDTO;
-import com.products.exception.ProductNotFoundException;
-import com.products.exception.InvalidProductDataException;
-import com.products.model.Book;
-import com.products.model.Manga;
-import com.products.model.Product;
-import com.products.repository.ProductRepository;
+import com.products.domain.model.Book;
+import com.products.domain.model.Manga;
+import com.products.domain.model.Product;
+import com.products.infrastructure.repository.ProductRepository;
+import com.products.presentation.dto.ProductDTO;
+import com.products.shared.exception.InvalidProductDataException;
+import com.products.shared.exception.ProductNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -103,3 +103,4 @@ public class ProductService {
         return productRepository.countByGenreIgnoreCase(genre);
     }
 }
+

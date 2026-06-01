@@ -1,4 +1,4 @@
-package com.products.exception;
+package com.products.shared.exception;
 
 public class ErrorResponse {
     private int status;
@@ -25,5 +25,6 @@ public class ErrorResponse {
         this.message = message;
     }
 }
+
 
 

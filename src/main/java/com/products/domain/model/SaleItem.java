@@ -1,4 +1,4 @@
-package com.products.model;
+package com.products.domain.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -26,3 +26,4 @@ public class SaleItem {
     @JoinColumn(name = "sale_id", nullable = false)
     private Sale sale;
 }
+
