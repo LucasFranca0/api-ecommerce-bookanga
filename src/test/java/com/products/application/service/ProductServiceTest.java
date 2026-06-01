@@ -1,11 +1,11 @@
-package com.products.service;
-import com.products.dto.ProductDTO;
-import com.products.exception.InvalidProductDataException;
-import com.products.exception.ProductNotFoundException;
-import com.products.model.Book;
-import com.products.model.Manga;
-import com.products.model.Product;
-import com.products.repository.ProductRepository;
+package com.products.application.service;
+import com.products.domain.model.Book;
+import com.products.domain.model.Manga;
+import com.products.domain.model.Product;
+import com.products.infrastructure.repository.ProductRepository;
+import com.products.presentation.dto.ProductDTO;
+import com.products.shared.exception.InvalidProductDataException;
+import com.products.shared.exception.ProductNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -192,3 +192,4 @@ class ProductServiceTest {
         }
     }
 }
+

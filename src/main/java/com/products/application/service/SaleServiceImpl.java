@@ -1,7 +1,7 @@
-package com.products.service;
+package com.products.application.service;
 
-import com.products.dto.SaleDTO;
-import com.products.model.Sale;
+import com.products.domain.model.Sale;
+import com.products.presentation.dto.SaleDTO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,3 +11,4 @@ public class SaleServiceImpl implements SaleService{
         return null;
     }
 }
+

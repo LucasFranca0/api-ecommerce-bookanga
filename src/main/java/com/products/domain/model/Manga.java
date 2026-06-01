@@ -1,4 +1,4 @@
-package com.products.model;
+package com.products.domain.model;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -14,3 +14,4 @@ public class Manga extends Product{
     }
 
 }
+

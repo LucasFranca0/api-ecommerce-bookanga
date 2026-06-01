@@ -1,8 +1,8 @@
-package com.products.controller;
+package com.products.presentation.controller;
 
-import com.products.dto.SaleDTO;
-import com.products.model.Sale;
-import com.products.service.SaleService;
+import com.products.application.service.SaleService;
+import com.products.domain.model.Sale;
+import com.products.presentation.dto.SaleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,3 +29,4 @@ public class SaleController {
     // Implementar outros endpoints relacionados às vendas
 
 }
+

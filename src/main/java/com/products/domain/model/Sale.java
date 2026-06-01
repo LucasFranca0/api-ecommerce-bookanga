@@ -1,4 +1,4 @@
-package com.products.model;
+package com.products.domain.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -28,4 +28,5 @@ public class Sale {
     private List<SaleItem> items;
 
 }
+
 

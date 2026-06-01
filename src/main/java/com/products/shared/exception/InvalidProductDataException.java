@@ -1,4 +1,4 @@
-package com.products.exception;
+package com.products.shared.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -9,3 +9,4 @@ public class InvalidProductDataException extends RuntimeException {
         super(message);
     }
 }
+

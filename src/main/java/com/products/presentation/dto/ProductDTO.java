@@ -1,4 +1,4 @@
-package com.products.dto;
+package com.products.presentation.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -52,3 +52,4 @@ public class ProductDTO {
     }
 
 }
+

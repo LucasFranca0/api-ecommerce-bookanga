@@ -1,8 +1,8 @@
-package com.products.controller;
+package com.products.presentation.controller;
 
-import com.products.dto.ProductDTO;
-import com.products.model.Product;
-import com.products.service.ProductService;
+import com.products.application.service.ProductService;
+import com.products.domain.model.Product;
+import com.products.presentation.dto.ProductDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -106,3 +106,4 @@ public class ProductController {
     }
 
 }
+

@@ -1,4 +1,4 @@
-package com.products.dto;
+package com.products.presentation.dto;
 
 import lombok.Data;
 
@@ -22,4 +22,5 @@ public class SaleDTO {
     private BigDecimal price;
 
 }
+
 

@@ -1,4 +1,4 @@
-package com.products.model;
+package com.products.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -60,3 +60,4 @@ public abstract class Product {
     @JsonProperty("product_type")
     public abstract String getProductType();
 }
+
