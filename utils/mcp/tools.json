@@ -1,0 +1,2455 @@
+{
+  "generatedAt": "2026-05-30T18:06:04.525Z",
+  "count": 50,
+  "tools": [
+    {
+      "name": "zephyr.listTestCases",
+      "description": "[GET] /testcases - Get test cases",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "projectKey": {
+            "pattern": "([A-Z][A-Z_0-9]+)",
+            "type": "string",
+            "description": "Jira project key filter"
+          },
+          "folderId": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "description": "Folder ID filter"
+          },
+          "maxResults": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "default": 10,
+            "description": "Specifies the maximum number of results to return in a single call. The default value is 10, and the maximum value that can be requested is 1000.\n\nNote that the server may enforce a lower limit than requested, depending on resource availability or other internal constraints. If this happens, the result set may be truncated. Always check the maxResults value in the response to confirm how many results were actually returned.\n"
+          },
+          "startAt": {
+            "maximum": 1000000,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64",
+            "default": 0,
+            "description": "Zero-indexed starting position. Should be a multiple of maxResults."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.createTestCase",
+      "description": "[POST] /testcases - Create test case",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "required": [
+              "name",
+              "projectKey"
+            ],
+            "type": "object",
+            "properties": {
+              "projectKey": {
+                "pattern": "([A-Z][A-Z_0-9]+)",
+                "type": "string",
+                "description": "Jira project key.",
+                "example": "TIS"
+              },
+              "name": {
+                "maxLength": 255,
+                "minLength": 1,
+                "pattern": "^(?!\\\\s*$).+",
+                "type": "string",
+                "example": "Check axial pump"
+              },
+              "objective": {
+                "type": "string",
+                "description": "A description of the objective.",
+                "nullable": true,
+                "example": "To ensure the axial pump can be enabled"
+              },
+              "precondition": {
+                "type": "string",
+                "description": "Any conditions that need to be met.",
+                "nullable": true,
+                "example": "Latest version of the axial pump available"
+              },
+              "estimatedTime": {
+                "minimum": 0,
+                "type": "integer",
+                "description": "Estimated duration in milliseconds.",
+                "format": "int64",
+                "example": 138000
+              },
+              "componentId": {
+                "minimum": 0,
+                "type": "integer",
+                "description": "ID of a component from Jira.",
+                "format": "int64",
+                "example": 10001
+              },
+              "priorityName": {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string",
+                "description": "The priority name.",
+                "example": "Critical"
+              },
+              "statusName": {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string",
+                "description": "The status name.",
+                "example": "In Progress"
+              },
+              "folderId": {
+                "minimum": 1,
+                "type": "integer",
+                "description": "ID of a folder to place the entity within.",
+                "format": "int64"
+              },
+              "ownerId": {
+                "pattern": "^[-:a-zA-Z0-9]{1,128}$",
+                "type": "string",
+                "description": "Atlassian Account ID of the Jira user.",
+                "nullable": true,
+                "example": "5b10a2844c20165700ede21g"
+              },
+              "labels": {
+                "maxItems": 50,
+                "type": "array",
+                "description": "Array of labels associated to this entity.",
+                "example": [
+                  "Regression",
+                  "Performance",
+                  "Automated"
+                ],
+                "items": {
+                  "type": "string"
+                }
+              },
+              "customFields": {
+                "type": "object",
+                "additionalProperties": {},
+                "description": "Multi-line text fields support HTML and should denote new lines with the \\<br\\> tag.\nDates should be in the format 'yyyy-MM-dd'.\nUsers should have values of Jira User Account IDs.\n",
+                "example": {
+                  "Build Number": 20,
+                  "Release Date": "2020-01-01T00:00:00Z",
+                  "Pre-Condition(s)": "User should have logged in. <br> User should have navigated to the administration panel.",
+                  "Implemented": false,
+                  "Category": [
+                    "Performance",
+                    "Regression"
+                  ],
+                  "Tester": "fa2e582e-5e15-521e-92e3-47e6ca2e7256"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.listTestCasesCursorPaginated",
+      "description": "[GET] /testcases/nextgen - Get test cases (NextGen)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "projectKey": {
+            "pattern": "([A-Z][A-Z_0-9]+)",
+            "type": "string",
+            "description": "Jira project key filter"
+          },
+          "folderId": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "description": "Folder ID filter"
+          },
+          "limit": {
+            "maximum": 1000,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "default": 10,
+            "description": "Specifies the maximum number of results to return in a single call. The default value is 10, and the maximum value that can be requested is 1000.\n\nNote that the server may enforce a lower limit than requested, depending on resource availability or other internal constraints. If this happens, the result set may be truncated. Always check the limit value in the response to confirm how many results were actually returned.\n"
+          },
+          "startAtId": {
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64",
+            "default": 0,
+            "description": "Zero-indexed starting position for ID-based pagination."
+          },
+          "updatedAfter": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Filter only entities updated after the given time. Format: yyyy-MM-dd'T'HH:mm:ss'Z'"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.getTestCase",
+      "description": "[GET] /testcases/{testCaseKey} - Get test case",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testCaseKey": {
+            "pattern": "(.+-T[0-9]+)",
+            "type": "string",
+            "description": "The key of the test case. Test case keys are of the format [A-Z]+-T[0-9]+"
+          }
+        },
+        "required": [
+          "testCaseKey"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.updateTestCase",
+      "description": "[PUT] /testcases/{testCaseKey} - Update test case",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testCaseKey": {
+            "pattern": "(.+-T[0-9]+)",
+            "type": "string",
+            "description": "The key of the test case. Test case keys are of the format [A-Z]+-T[0-9]+"
+          },
+          "body": {
+            "required": [
+              "id",
+              "key",
+              "name",
+              "priority",
+              "project",
+              "status"
+            ],
+            "type": "object",
+            "properties": {
+              "id": {
+                "minimum": 1,
+                "type": "integer",
+                "description": "The ID of the entity",
+                "format": "int64",
+                "example": 1
+              },
+              "key": {
+                "pattern": ".+-T[0-9]+",
+                "type": "string",
+                "description": "The test case key",
+                "example": "SA-T10"
+              },
+              "name": {
+                "maxLength": 255,
+                "minLength": 1,
+                "pattern": "^(?!\\\\s*$).+",
+                "type": "string",
+                "example": "Check axial pump"
+              },
+              "project": {
+                "description": "ID and link relative to Zephyr project.",
+                "example": {
+                  "id": 10005,
+                  "self": "https://<api-base-url>/projects/10005"
+                },
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ResourceId"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                ]
+              },
+              "objective": {
+                "type": "string",
+                "description": "A description of the objective.",
+                "nullable": true,
+                "example": "To ensure the axial pump can be enabled"
+              },
+              "precondition": {
+                "type": "string",
+                "description": "Any conditions that need to be met.",
+                "nullable": true,
+                "example": "Latest version of the axial pump available"
+              },
+              "estimatedTime": {
+                "minimum": 0,
+                "type": "integer",
+                "description": "Estimated duration in milliseconds.",
+                "format": "int64",
+                "nullable": true,
+                "example": 138000
+              },
+              "labels": {
+                "maxItems": 50,
+                "type": "array",
+                "description": "Array of labels associated to this entity.",
+                "example": [
+                  "Regression",
+                  "Performance",
+                  "Automated"
+                ],
+                "items": {
+                  "type": "string"
+                }
+              },
+              "component": {
+                "description": "ID and link to the Jira component resource.",
+                "nullable": true,
+                "example": {
+                  "id": 10001,
+                  "self": "https://<jira-instance>.atlassian.net/rest/api/2/component/10001"
+                },
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ResourceId"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                ]
+              },
+              "priority": {
+                "description": "ID and link to the priority resource.",
+                "example": {
+                  "id": 10002,
+                  "self": "https://<api-base-url>/priorities/10002"
+                },
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ResourceId"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                ]
+              },
+              "status": {
+                "description": "ID and link to the status resource.",
+                "example": {
+                  "id": 10000,
+                  "self": "https://<api-base-url>/statuses/10000"
+                },
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ResourceId"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                ]
+              },
+              "folder": {
+                "description": "ID and link to the folder resource.",
+                "nullable": true,
+                "example": {
+                  "id": 100006,
+                  "self": "https://<api-base-url>/folders/10006"
+                },
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ResourceId"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                ]
+              },
+              "owner": {
+                "required": [
+                  "accountId"
+                ],
+                "properties": {
+                  "accountId": {
+                    "$ref": "#/components/schemas/JiraUserAccountId"
+                  },
+                  "self": {
+                    "type": "string",
+                    "description": "The Jira REST API endpoint to get the full representation of the Jira user.",
+                    "format": "uri"
+                  }
+                },
+                "nullable": true,
+                "example": {
+                  "self": "https://<jira-instance>.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g",
+                  "accountId": "5b10a2844c20165700ede21g"
+                }
+              },
+              "customFields": {
+                "type": "object",
+                "additionalProperties": {},
+                "description": "Multi-line text fields support HTML and should denote new lines with the \\<br\\> tag.\nDates should be in the format 'yyyy-MM-dd'.\nUsers should have values of Jira User Account IDs.\n",
+                "example": {
+                  "Build Number": 20,
+                  "Release Date": "2020-01-01T00:00:00Z",
+                  "Pre-Condition(s)": "User should have logged in. <br> User should have navigated to the administration panel.",
+                  "Implemented": false,
+                  "Category": [
+                    "Performance",
+                    "Regression"
+                  ],
+                  "Tester": "fa2e582e-5e15-521e-92e3-47e6ca2e7256"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "testCaseKey",
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.getTestCaseLinks",
+      "description": "[GET] /testcases/{testCaseKey}/links - Get links",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testCaseKey": {
+            "pattern": "(.+-T[0-9]+)",
+            "type": "string",
+            "description": "The key of the test case. Test case keys are of the format [A-Z]+-T[0-9]+"
+          }
+        },
+        "required": [
+          "testCaseKey"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.createTestCaseIssueLink",
+      "description": "[POST] /testcases/{testCaseKey}/links/issues - Create issue link",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testCaseKey": {
+            "pattern": "(.+-T[0-9]+)",
+            "type": "string",
+            "description": "The key of the test case. Test case keys are of the format [A-Z]+-T[0-9]+"
+          },
+          "body": {
+            "required": [
+              "issueId"
+            ],
+            "type": "object",
+            "properties": {
+              "issueId": {
+                "minimum": 1,
+                "type": "integer",
+                "description": "The Jira issue ID",
+                "format": "int64",
+                "example": 10100
+              }
+            }
+          }
+        },
+        "required": [
+          "testCaseKey",
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.createTestCaseWebLink",
+      "description": "[POST] /testcases/{testCaseKey}/links/weblinks - Create web link",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testCaseKey": {
+            "pattern": "(.+-T[0-9]+)",
+            "type": "string",
+            "description": "The key of the test case. Test case keys are of the format [A-Z]+-T[0-9]+"
+          },
+          "body": {
+            "required": [
+              "url"
+            ],
+            "type": "object",
+            "properties": {
+              "description": {
+                "type": "string",
+                "description": "The web link description",
+                "example": "A link to atlassian.com"
+              },
+              "url": {
+                "type": "string",
+                "description": "The web link URL",
+                "example": "https://atlassian.com"
+              }
+            }
+          }
+        },
+        "required": [
+          "testCaseKey",
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.listTestCaseVersions",
+      "description": "[GET] /testcases/{testCaseKey}/versions - Get versions",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testCaseKey": {
+            "pattern": "(.+-T[0-9]+)",
+            "type": "string",
+            "description": "The key of the test case. Test case keys are of the format [A-Z]+-T[0-9]+"
+          },
+          "maxResults": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "default": 10,
+            "description": "Specifies the maximum number of results to return in a single call. The default value is 10, and the maximum value that can be requested is 1000.\n\nNote that the server may enforce a lower limit than requested, depending on resource availability or other internal constraints. If this happens, the result set may be truncated. Always check the maxResults value in the response to confirm how many results were actually returned.\n"
+          },
+          "startAt": {
+            "maximum": 1000000,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64",
+            "default": 0,
+            "description": "Zero-indexed starting position. Should be a multiple of maxResults."
+          }
+        },
+        "required": [
+          "testCaseKey"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.getTestCaseVersion",
+      "description": "[GET] /testcases/{testCaseKey}/versions/{version} - Get version",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testCaseKey": {
+            "pattern": "(.+-T[0-9]+)",
+            "type": "string",
+            "description": "The key of the test case. Test case keys are of the format [A-Z]+-T[0-9]+"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Version of the test case to retrieve."
+          }
+        },
+        "required": [
+          "testCaseKey",
+          "version"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.getTestCaseTestScript",
+      "description": "[GET] /testcases/{testCaseKey}/testscript - Get test script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testCaseKey": {
+            "pattern": "(.+-T[0-9]+)",
+            "type": "string",
+            "description": "The key of the test case. Test case keys are of the format [A-Z]+-T[0-9]+"
+          }
+        },
+        "required": [
+          "testCaseKey"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.createTestCaseTestScript",
+      "description": "[POST] /testcases/{testCaseKey}/testscript - Create test script",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testCaseKey": {
+            "pattern": "(.+-T[0-9]+)",
+            "type": "string",
+            "description": "The key of the test case. Test case keys are of the format [A-Z]+-T[0-9]+"
+          },
+          "body": {
+            "required": [
+              "text",
+              "type"
+            ],
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Test scripts can be written in plain text or BDD format. The BDD type supports\nremote execution on a build system via API plugin.\n\nSupported Keywords for BDD:\nGiven, When, Then, And, But.\n\nFor more information about BDD and Gherkin syntax, see:\nhttps://support.smartbear.com/zephyr/docs/en/test-cases/gherkin-behavior-driven-development--bdd-.html\n\nFor Plain Text scripts, we support HTML fragments.\nTo create a step-by-step test script, you should use the POST /testcases/{testCaseKey}/teststeps endpoint.\n",
+                "example": "plain",
+                "enum": [
+                  "plain",
+                  "bdd"
+                ]
+              },
+              "text": {
+                "minLength": 1,
+                "type": "string",
+                "example": "e.g. Attempt to login to the application"
+              }
+            },
+            "description": "Request body for creating test scripts"
+          }
+        },
+        "required": [
+          "testCaseKey",
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.getTestCaseTestSteps",
+      "description": "[GET] /testcases/{testCaseKey}/teststeps - Get test steps",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testCaseKey": {
+            "pattern": "(.+-T[0-9]+)",
+            "type": "string",
+            "description": "The key of the test case. Test case keys are of the format [A-Z]+-T[0-9]+"
+          },
+          "maxResults": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "default": 10,
+            "description": "Specifies the maximum number of results to return in a single call. The default value is 10, and the maximum value that can be requested is 1000.\n\nNote that the server may enforce a lower limit than requested, depending on resource availability or other internal constraints. If this happens, the result set may be truncated. Always check the maxResults value in the response to confirm how many results were actually returned.\n"
+          },
+          "startAt": {
+            "maximum": 1000000,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64",
+            "default": 0,
+            "description": "Zero-indexed starting position. Should be a multiple of maxResults."
+          }
+        },
+        "required": [
+          "testCaseKey"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.createTestCaseTestSteps",
+      "description": "[POST] /testcases/{testCaseKey}/teststeps - Post test steps",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testCaseKey": {
+            "pattern": "(.+-T[0-9]+)",
+            "type": "string",
+            "description": "The key of the test case. Test case keys are of the format [A-Z]+-T[0-9]+"
+          },
+          "body": {
+            "required": [
+              "items",
+              "mode"
+            ],
+            "type": "object",
+            "properties": {
+              "mode": {
+                "type": "string",
+                "description": "Valid values: `\"APPEND\"`, `\"OVERWRITE\"`. <br> `OVERWRITE` deletes and recreates the test steps and associated custom field values using the provided input. Attachments for existing steps are kept, but those for missing steps are deleted permanently <br> `APPEND` only adds extra steps to your test steps.\n",
+                "example": "APPEND"
+              },
+              "items": {
+                "type": "array",
+                "description": "The list of test steps. Each step should be an object containing `inline` or `testCase`. **They should only include one of these fields at a time**.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "inline": {
+                      "type": "object",
+                      "properties": {
+                        "description": {
+                          "type": "string",
+                          "description": "The instruction to be followed",
+                          "example": "Attempt to login to the application"
+                        },
+                        "testData": {
+                          "type": "string",
+                          "description": "Any test data required to perform the instruction (optional). The fields values provided can be interpolated into the description.",
+                          "example": "Username = SmartBear Password = weLoveAtlassian"
+                        },
+                        "expectedResult": {
+                          "type": "string",
+                          "description": "The expected outcome of executing the instruction",
+                          "example": "Login succeeds, web-app redirects to the dashboard view"
+                        },
+                        "customFields": {
+                          "type": "object",
+                          "additionalProperties": {},
+                          "description": "Multi-line text fields support HTML and should denote new lines with the \\<br\\> tag.\nDates should be in the format 'yyyy-MM-dd'.\nUsers should have values of Jira User Account IDs.\n",
+                          "example": {
+                            "Build Number": 20,
+                            "Release Date": "2020-01-01T00:00:00Z",
+                            "Pre-Condition(s)": "User should have logged in. <br> User should have navigated to the administration panel.",
+                            "Implemented": false,
+                            "Category": [
+                              "Performance",
+                              "Regression"
+                            ],
+                            "Tester": "fa2e582e-5e15-521e-92e3-47e6ca2e7256"
+                          }
+                        },
+                        "reflectRef": {
+                          "type": "string",
+                          "description": "The AI reference. Zephyr only feature",
+                          "example": "Not available yet"
+                        }
+                      }
+                    },
+                    "testCase": {
+                      "required": [
+                        "testCaseKey"
+                      ],
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/Link"
+                        },
+                        {
+                          "properties": {
+                            "testCaseKey": {
+                              "pattern": "(.+-T[0-9]+)",
+                              "type": "string",
+                              "description": "The key of the other test case that the test step should delegate execution to. This cannot be the parent test case.",
+                              "example": "PROJ-T123"
+                            },
+                            "parameters": {
+                              "type": "array",
+                              "description": "The list of parameters of the call to test step",
+                              "items": {
+                                "$ref": "#/components/schemas/TestStepTestCaseParameters"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "description": "An instruction to be followed as part of a step-by-step test script. The test step can have either an inline definition, or delegate execution to another test case. One of these options must be specified."
+                }
+              }
+            },
+            "description": "Request body for creating test steps. A maximum of 100 test steps can be added in one request. To add more than 100 steps, you can submit multiple requests. The mode property allows you to specify whether you want to delete the current test steps and create a new list, or append more items to the end of the current list."
+          }
+        },
+        "required": [
+          "testCaseKey",
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.listTestCycles",
+      "description": "[GET] /testcycles - Get test cycles",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "projectKey": {
+            "pattern": "([A-Z][A-Z_0-9]+)",
+            "type": "string",
+            "description": "Jira project key filter"
+          },
+          "folderId": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "description": "Folder ID filter"
+          },
+          "jiraProjectVersionId": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "description": "Jira Project Version ID. Relates to 'Version' or 'Releases' in Jira projects."
+          },
+          "maxResults": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "default": 10,
+            "description": "Specifies the maximum number of results to return in a single call. The default value is 10, and the maximum value that can be requested is 1000.\n\nNote that the server may enforce a lower limit than requested, depending on resource availability or other internal constraints. If this happens, the result set may be truncated. Always check the maxResults value in the response to confirm how many results were actually returned.\n"
+          },
+          "startAt": {
+            "maximum": 1000000,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64",
+            "default": 0,
+            "description": "Zero-indexed starting position. Should be a multiple of maxResults."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.createTestCycle",
+      "description": "[POST] /testcycles - Create a Test Cycle",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "required": [
+              "name",
+              "projectKey"
+            ],
+            "type": "object",
+            "properties": {
+              "projectKey": {
+                "pattern": "([A-Z][A-Z_0-9]+)",
+                "type": "string",
+                "description": "Jira project key.",
+                "example": "TIS"
+              },
+              "name": {
+                "maxLength": 255,
+                "minLength": 1,
+                "pattern": "^(?!\\\\s*$).+",
+                "type": "string",
+                "example": "Check axial pump"
+              },
+              "description": {
+                "type": "string",
+                "description": "Description outlining the scope.",
+                "nullable": true,
+                "example": "Regression test cycle 1 to ensure no breaking changes"
+              },
+              "plannedStartDate": {
+                "type": "string",
+                "description": "Planned start date of the test cycle. Format: yyyy-MM-dd'T'HH:mm:ss'Z'",
+                "format": "date-time",
+                "example": "2018-05-19T13:15:13Z"
+              },
+              "plannedEndDate": {
+                "type": "string",
+                "description": "The planned end date of the test cycle. Format: yyyy-MM-dd'T'HH:mm:ss'Z'",
+                "format": "date-time",
+                "example": "2018-05-20T13:15:13Z"
+              },
+              "jiraProjectVersion": {
+                "minimum": 1,
+                "type": "integer",
+                "description": "Jira Project Version ID. Relates to 'Version' or 'Releases' in Jira projects.",
+                "format": "int64",
+                "example": 10000
+              },
+              "statusName": {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string",
+                "description": "The status name.",
+                "example": "In Progress"
+              },
+              "folderId": {
+                "minimum": 1,
+                "type": "integer",
+                "description": "ID of a folder to place the entity within.",
+                "format": "int64"
+              },
+              "ownerId": {
+                "pattern": "^[-:a-zA-Z0-9]{1,128}$",
+                "type": "string",
+                "description": "Atlassian Account ID of the Jira user.",
+                "nullable": true,
+                "example": "5b10a2844c20165700ede21g"
+              },
+              "customFields": {
+                "type": "object",
+                "additionalProperties": {},
+                "description": "Multi-line text fields support HTML and should denote new lines with the \\<br\\> tag.\nDates should be in the format 'yyyy-MM-dd'.\nUsers should have values of Jira User Account IDs.\n",
+                "example": {
+                  "Build Number": 20,
+                  "Release Date": "2020-01-01T00:00:00Z",
+                  "Pre-Condition(s)": "User should have logged in. <br> User should have navigated to the administration panel.",
+                  "Implemented": false,
+                  "Category": [
+                    "Performance",
+                    "Regression"
+                  ],
+                  "Tester": "fa2e582e-5e15-521e-92e3-47e6ca2e7256"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.listTestCyclesCursorPaginated",
+      "description": "[GET] /testcycles/nextgen - Get test cycles (NextGen)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "projectKey": {
+            "pattern": "([A-Z][A-Z_0-9]+)",
+            "type": "string",
+            "description": "Jira project key filter"
+          },
+          "folderId": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "description": "Folder ID filter"
+          },
+          "jiraProjectVersionId": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "description": "Jira Project Version ID. Relates to 'Version' or 'Releases' in Jira projects."
+          },
+          "limit": {
+            "maximum": 1000,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "default": 10,
+            "description": "Specifies the maximum number of results to return in a single call. The default value is 10, and the maximum value that can be requested is 1000.\n\nNote that the server may enforce a lower limit than requested, depending on resource availability or other internal constraints. If this happens, the result set may be truncated. Always check the limit value in the response to confirm how many results were actually returned.\n"
+          },
+          "startAtId": {
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64",
+            "default": 0,
+            "description": "Zero-indexed starting position for ID-based pagination."
+          },
+          "updatedAfter": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Filter only entities updated after the given time. Format: yyyy-MM-dd'T'HH:mm:ss'Z'"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.getTestCycle",
+      "description": "[GET] /testcycles/{testCycleIdOrKey} - Get test cycle",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testCycleIdOrKey": {
+            "pattern": "([0-9]+)|([A-Z][A-Z_0-9]+-R[0-9]+)",
+            "type": "string",
+            "description": "The ID or key of the test cycle."
+          }
+        },
+        "required": [
+          "testCycleIdOrKey"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.updateTestCycle",
+      "description": "[PUT] /testcycles/{testCycleIdOrKey} - Update test cycle",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testCycleIdOrKey": {
+            "pattern": "([0-9]+)|([A-Z][A-Z_0-9]+-R[0-9]+)",
+            "type": "string",
+            "description": "The ID or key of the test cycle."
+          },
+          "body": {
+            "required": [
+              "id",
+              "key",
+              "name",
+              "project",
+              "status"
+            ],
+            "type": "object",
+            "properties": {
+              "id": {
+                "minimum": 1,
+                "type": "integer",
+                "description": "The ID of the entity",
+                "format": "int64",
+                "example": 1
+              },
+              "key": {
+                "pattern": "([A-Z][A-Z_0-9]+-R[0-9]+)",
+                "type": "string",
+                "description": "Unique key of the test cycle",
+                "example": "SA-R40"
+              },
+              "name": {
+                "maxLength": 255,
+                "minLength": 1,
+                "pattern": "^(?!\\\\s*$).+",
+                "type": "string",
+                "example": "Check axial pump"
+              },
+              "project": {
+                "description": "ID and link relative to Zephyr project.",
+                "example": {
+                  "id": 10005,
+                  "self": "https://<api-base-url>/projects/10005"
+                },
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ResourceId"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                ]
+              },
+              "jiraProjectVersion": {
+                "description": "ID and Link to fetch information about Jira Project version. Relates to 'Version' or 'Releases' in Jira projects.",
+                "nullable": true,
+                "example": {
+                  "id": 10000,
+                  "self": "https://<jira-instance>.atlassian.net/rest/api/2/version/10000"
+                },
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ResourceId"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                ]
+              },
+              "status": {
+                "description": "ID and link to the status resource.",
+                "example": {
+                  "id": 10000,
+                  "self": "https://<api-base-url>/statuses/10000"
+                },
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ResourceId"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                ]
+              },
+              "folder": {
+                "description": "ID and link to the folder resource.",
+                "nullable": true,
+                "example": {
+                  "id": 100006,
+                  "self": "https://<api-base-url>/folders/10006"
+                },
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ResourceId"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                ]
+              },
+              "description": {
+                "type": "string",
+                "description": "Description outlining the scope.",
+                "nullable": true,
+                "example": "Regression test cycle 1 to ensure no breaking changes"
+              },
+              "plannedStartDate": {
+                "type": "string",
+                "description": "Planned start date of the test cycle. This field cannot be blank. Setting it as null or excluding it from the request will leave the field values unchanged. ISO 8601 Format (i.e., yyyy-MM-dd'T'HH:mm:ss'Z')",
+                "format": "date-time",
+                "nullable": true,
+                "example": "2018-05-19T13:15:13Z"
+              },
+              "plannedEndDate": {
+                "type": "string",
+                "description": "The planned end date of the test cycle. This field cannot be blank. Setting it as null or excluding it from the request will leave the field values unchanged. ISO 8601 Format (i.e., yyyy-MM-dd'T'HH:mm:ss'Z')",
+                "format": "date-time",
+                "nullable": true,
+                "example": "2018-05-20T13:15:13Z"
+              },
+              "owner": {
+                "required": [
+                  "accountId"
+                ],
+                "properties": {
+                  "accountId": {
+                    "$ref": "#/components/schemas/JiraUserAccountId"
+                  },
+                  "self": {
+                    "type": "string",
+                    "description": "The Jira REST API endpoint to get the full representation of the Jira user.",
+                    "format": "uri"
+                  }
+                },
+                "nullable": true,
+                "example": {
+                  "self": "https://<jira-instance>.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g",
+                  "accountId": "5b10a2844c20165700ede21g"
+                }
+              },
+              "customFields": {
+                "type": "object",
+                "additionalProperties": {},
+                "description": "Multi-line text fields support HTML and should denote new lines with the \\<br\\> tag.\nDates should be in the format 'yyyy-MM-dd'.\nUsers should have values of Jira User Account IDs.\n",
+                "example": {
+                  "Build Number": 20,
+                  "Release Date": "2020-01-01T00:00:00Z",
+                  "Pre-Condition(s)": "User should have logged in. <br> User should have navigated to the administration panel.",
+                  "Implemented": false,
+                  "Category": [
+                    "Performance",
+                    "Regression"
+                  ],
+                  "Tester": "fa2e582e-5e15-521e-92e3-47e6ca2e7256"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "testCycleIdOrKey",
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.getTestCycleLinks",
+      "description": "[GET] /testcycles/{testCycleIdOrKey}/links - Get links",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testCycleIdOrKey": {
+            "pattern": "([0-9]+)|([A-Z][A-Z_0-9]+-R[0-9]+)",
+            "type": "string",
+            "description": "The ID or key of the test cycle."
+          }
+        },
+        "required": [
+          "testCycleIdOrKey"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.createTestCycleIssueLink",
+      "description": "[POST] /testcycles/{testCycleIdOrKey}/links/issues - Create issue link",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testCycleIdOrKey": {
+            "pattern": "([0-9]+)|([A-Z][A-Z_0-9]+-R[0-9]+)",
+            "type": "string",
+            "description": "The ID or key of the test cycle."
+          },
+          "body": {
+            "required": [
+              "issueId"
+            ],
+            "type": "object",
+            "properties": {
+              "issueId": {
+                "minimum": 1,
+                "type": "integer",
+                "description": "The Jira issue ID",
+                "format": "int64",
+                "example": 10100
+              }
+            }
+          }
+        },
+        "required": [
+          "testCycleIdOrKey",
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.createTestCycleWebLink",
+      "description": "[POST] /testcycles/{testCycleIdOrKey}/links/weblinks - Create web link",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testCycleIdOrKey": {
+            "pattern": "([0-9]+)|([A-Z][A-Z_0-9]+-R[0-9]+)",
+            "type": "string",
+            "description": "The ID or key of the test cycle."
+          },
+          "body": {
+            "required": [
+              "url"
+            ],
+            "type": "object",
+            "properties": {
+              "description": {
+                "type": "string",
+                "description": "The web link description",
+                "example": "A link to atlassian.com"
+              },
+              "url": {
+                "type": "string",
+                "description": "The web link URL",
+                "example": "https://atlassian.com"
+              }
+            }
+          }
+        },
+        "required": [
+          "testCycleIdOrKey",
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.listTestPlans",
+      "description": "[GET] /testplans - Get test plans",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "projectKey": {
+            "pattern": "([A-Z][A-Z_0-9]+)",
+            "type": "string",
+            "description": "Jira project key filter"
+          },
+          "maxResults": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "default": 10,
+            "description": "Specifies the maximum number of results to return in a single call. The default value is 10, and the maximum value that can be requested is 1000.\n\nNote that the server may enforce a lower limit than requested, depending on resource availability or other internal constraints. If this happens, the result set may be truncated. Always check the maxResults value in the response to confirm how many results were actually returned.\n"
+          },
+          "startAt": {
+            "maximum": 1000000,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64",
+            "default": 0,
+            "description": "Zero-indexed starting position. Should be a multiple of maxResults."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.createTestPlan",
+      "description": "[POST] /testplans - Create test plan",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "required": [
+              "name",
+              "projectKey"
+            ],
+            "type": "object",
+            "properties": {
+              "projectKey": {
+                "pattern": "([A-Z][A-Z_0-9]+)",
+                "type": "string",
+                "description": "Jira project key.",
+                "example": "TIS"
+              },
+              "name": {
+                "maxLength": 255,
+                "minLength": 1,
+                "pattern": "^(?!\\\\s*$).+",
+                "type": "string",
+                "example": "Check axial pump"
+              },
+              "objective": {
+                "type": "string",
+                "description": "A description of the objective.",
+                "nullable": true,
+                "example": "To ensure the axial pump can be enabled"
+              },
+              "folderId": {
+                "minimum": 1,
+                "type": "integer",
+                "description": "ID of a folder to place the entity within.",
+                "format": "int64"
+              },
+              "statusName": {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string",
+                "description": "The status name.",
+                "example": "In Progress"
+              },
+              "ownerId": {
+                "pattern": "^[-:a-zA-Z0-9]{1,128}$",
+                "type": "string",
+                "description": "Atlassian Account ID of the Jira user.",
+                "nullable": true,
+                "example": "5b10a2844c20165700ede21g"
+              },
+              "labels": {
+                "maxItems": 50,
+                "type": "array",
+                "description": "Array of labels associated to this entity.",
+                "example": [
+                  "Regression",
+                  "Performance",
+                  "Automated"
+                ],
+                "items": {
+                  "type": "string"
+                }
+              },
+              "customFields": {
+                "type": "object",
+                "additionalProperties": {},
+                "description": "Multi-line text fields support HTML and should denote new lines with the \\<br\\> tag.\nDates should be in the format 'yyyy-MM-dd'.\nUsers should have values of Jira User Account IDs.\n",
+                "example": {
+                  "Build Number": 20,
+                  "Release Date": "2020-01-01T00:00:00Z",
+                  "Pre-Condition(s)": "User should have logged in. <br> User should have navigated to the administration panel.",
+                  "Implemented": false,
+                  "Category": [
+                    "Performance",
+                    "Regression"
+                  ],
+                  "Tester": "fa2e582e-5e15-521e-92e3-47e6ca2e7256"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.getTestPlan",
+      "description": "[GET] /testplans/{testPlanIdOrKey} - Get test plan",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testPlanIdOrKey": {
+            "pattern": "([0-9]+)|(.+-P[0-9]+)",
+            "type": "string",
+            "description": "The ID or key of the test plan. Test plan keys are of the format [A-Z]+-P[0-9]+"
+          }
+        },
+        "required": [
+          "testPlanIdOrKey"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.createTestPlanWebLink",
+      "description": "[POST] /testplans/{testPlanIdOrKey}/links/weblinks - Create web link",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testPlanIdOrKey": {
+            "pattern": "([0-9]+)|(.+-P[0-9]+)",
+            "type": "string",
+            "description": "The ID or key of the test plan. Test plan keys are of the format [A-Z]+-P[0-9]+"
+          },
+          "body": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WebLinkInput"
+              },
+              {
+                "required": [
+                  "description",
+                  "url"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "testPlanIdOrKey",
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.createTestPlanIssueLink",
+      "description": "[POST] /testplans/{testPlanIdOrKey}/links/issues - Create issue link",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testPlanIdOrKey": {
+            "pattern": "([0-9]+)|(.+-P[0-9]+)",
+            "type": "string",
+            "description": "The ID or key of the test plan. Test plan keys are of the format [A-Z]+-P[0-9]+"
+          },
+          "body": {
+            "required": [
+              "issueId"
+            ],
+            "type": "object",
+            "properties": {
+              "issueId": {
+                "minimum": 1,
+                "type": "integer",
+                "description": "The Jira issue ID",
+                "format": "int64",
+                "example": 10100
+              }
+            }
+          }
+        },
+        "required": [
+          "testPlanIdOrKey",
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.createTestPlanTestCycleLink",
+      "description": "[POST] /testplans/{testPlanIdOrKey}/links/testcycles - Create test cycle link",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testPlanIdOrKey": {
+            "pattern": "([0-9]+)|(.+-P[0-9]+)",
+            "type": "string",
+            "description": "The ID or key of the test plan. Test plan keys are of the format [A-Z]+-P[0-9]+"
+          },
+          "body": {
+            "required": [
+              "testCycleIdOrKey"
+            ],
+            "type": "object",
+            "properties": {
+              "testCycleIdOrKey": {
+                "pattern": "([0-9]+)|([A-Z][A-Z_0-9]+-R[0-9]+)",
+                "type": "string",
+                "description": "The ID or key of the test cycle."
+              }
+            }
+          }
+        },
+        "required": [
+          "testPlanIdOrKey",
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.listTestExecutions",
+      "description": "[GET] /testexecutions - Get test executions",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "projectKey": {
+            "pattern": "([A-Z][A-Z_0-9]+)",
+            "type": "string",
+            "description": "Jira project key filter"
+          },
+          "testCycle": {
+            "pattern": "([A-Z][A-Z_0-9]+-R[0-9]+)",
+            "type": "string",
+            "description": "Test cycle key filter."
+          },
+          "testCase": {
+            "pattern": "([0-9]+)|(.+-T[0-9]+)",
+            "type": "string",
+            "description": "Test case key filter."
+          },
+          "actualEndDateAfter": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Filter for 'Actual End Date' after the given time. Format: yyyy-MM-dd'T'HH:mm:ss'Z'"
+          },
+          "actualEndDateBefore": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Filter for 'Actual End Date' before the given time. Format: yyyy-MM-dd'T'HH:mm:ss'Z'"
+          },
+          "includeStepLinks": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, execution step issue links will be included in the response"
+          },
+          "jiraProjectVersionId": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "description": "Jira Project Version ID. Relates to 'Version' or 'Releases' in Jira projects."
+          },
+          "onlyLastExecutions": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, includes only the last execution of each test cycle item (test case), and all ad-hoc test executions."
+          },
+          "maxResults": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "default": 10,
+            "description": "Specifies the maximum number of results to return in a single call. The default value is 10, and the maximum value that can be requested is 1000.\n\nNote that the server may enforce a lower limit than requested, depending on resource availability or other internal constraints. If this happens, the result set may be truncated. Always check the maxResults value in the response to confirm how many results were actually returned.\n"
+          },
+          "startAt": {
+            "maximum": 1000000,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64",
+            "default": 0,
+            "description": "Zero-indexed starting position. Should be a multiple of maxResults."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.createTestExecution",
+      "description": "[POST] /testexecutions - Create test execution",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "required": [
+              "projectKey",
+              "statusName",
+              "testCaseKey",
+              "testCycleKey"
+            ],
+            "type": "object",
+            "properties": {
+              "projectKey": {
+                "pattern": "([A-Z][A-Z_0-9]+)",
+                "type": "string",
+                "description": "Jira project key.",
+                "example": "TIS"
+              },
+              "testCaseKey": {
+                "pattern": "(.+-T[0-9]+)",
+                "type": "string",
+                "description": "Key of test case the execution applies to. NOTE: Test cases with call to test, parameters and test data are not supported.",
+                "example": "SA-T10"
+              },
+              "testCycleKey": {
+                "pattern": "([A-Z][A-Z_0-9]+-R[0-9]+)",
+                "type": "string",
+                "description": "Key of test cycle the execution applies to.",
+                "example": "SA-R10"
+              },
+              "statusName": {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string",
+                "description": "The status name.",
+                "example": "In Progress"
+              },
+              "testScriptResults": {
+                "type": "array",
+                "items": {
+                  "required": [
+                    "statusName"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "statusName": {},
+                    "actualEndDate": {
+                      "type": "string",
+                      "description": "The actual end date of the test cycle. Format: yyyy-MM-dd'T'HH:mm:ss'Z'",
+                      "format": "date-time",
+                      "example": "2018-05-20T13:15:13Z"
+                    },
+                    "actualResult": {
+                      "type": "string",
+                      "description": "free text field to provide more info on result of step execution.",
+                      "example": "User logged in successfully"
+                    }
+                  }
+                }
+              },
+              "environmentName": {
+                "type": "string",
+                "description": "Environment assigned to the test case.",
+                "example": "Chrome Latest Version"
+              },
+              "actualEndDate": {},
+              "executionTime": {
+                "minimum": 0,
+                "type": "integer",
+                "description": "Actual test execution time in milliseconds.",
+                "format": "int64",
+                "example": 120000
+              },
+              "executedById": {
+                "pattern": "^[-:a-zA-Z0-9]{1,128}$",
+                "type": "string",
+                "description": "Atlassian Account ID of the Jira user.",
+                "nullable": true,
+                "example": "5b10a2844c20165700ede21g"
+              },
+              "assignedToId": {},
+              "comment": {
+                "type": "string",
+                "description": "Comment added against overall test case execution.",
+                "nullable": true,
+                "example": "Test failed user could not login"
+              },
+              "customFields": {
+                "type": "object",
+                "additionalProperties": {},
+                "description": "Multi-line text fields support HTML and should denote new lines with the \\<br\\> tag.\nDates should be in the format 'yyyy-MM-dd'.\nUsers should have values of Jira User Account IDs.\n",
+                "example": {
+                  "Build Number": 20,
+                  "Release Date": "2020-01-01T00:00:00Z",
+                  "Pre-Condition(s)": "User should have logged in. <br> User should have navigated to the administration panel.",
+                  "Implemented": false,
+                  "Category": [
+                    "Performance",
+                    "Regression"
+                  ],
+                  "Tester": "fa2e582e-5e15-521e-92e3-47e6ca2e7256"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.listTestExecutionsNextgen",
+      "description": "[GET] /testexecutions/nextgen - Get test executions (NextGen)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "projectKey": {
+            "pattern": "([A-Z][A-Z_0-9]+)",
+            "type": "string",
+            "description": "Jira project key filter"
+          },
+          "testCycle": {
+            "pattern": "([A-Z][A-Z_0-9]+-R[0-9]+)",
+            "type": "string",
+            "description": "Test cycle key filter."
+          },
+          "testCase": {
+            "pattern": "([0-9]+)|(.+-T[0-9]+)",
+            "type": "string",
+            "description": "Test case key filter."
+          },
+          "actualEndDateAfter": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Filter for 'Actual End Date' after the given time. Format: yyyy-MM-dd'T'HH:mm:ss'Z'"
+          },
+          "actualEndDateBefore": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Filter for 'Actual End Date' before the given time. Format: yyyy-MM-dd'T'HH:mm:ss'Z'"
+          },
+          "includeStepLinks": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, execution step issue links will be included in the response"
+          },
+          "jiraProjectVersionId": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "description": "Jira Project Version ID. Relates to 'Version' or 'Releases' in Jira projects."
+          },
+          "onlyLastExecutions": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, includes only the last execution of each test cycle item (test case), and all ad-hoc test executions."
+          },
+          "limit": {
+            "maximum": 1000,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "default": 10,
+            "description": "Specifies the maximum number of results to return in a single call. The default value is 10, and the maximum value that can be requested is 1000.\n\nNote that the server may enforce a lower limit than requested, depending on resource availability or other internal constraints. If this happens, the result set may be truncated. Always check the limit value in the response to confirm how many results were actually returned.\n"
+          },
+          "startAtId": {
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64",
+            "default": 0,
+            "description": "Zero-indexed starting position for ID-based pagination."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.getTestExecution",
+      "description": "[GET] /testexecutions/{testExecutionIdOrKey} - Get test execution",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testExecutionIdOrKey": {
+            "pattern": "([0-9]+)|(.+-E[0-9]+)",
+            "type": "string",
+            "description": "The ID or key of the test execution. Test execution keys are of the format [A-Z]+-E[0-9]+"
+          },
+          "includeStepLinks": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, execution step issue links will be included in the response"
+          }
+        },
+        "required": [
+          "testExecutionIdOrKey"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.updateTestExecution",
+      "description": "[PUT] /testexecutions/{testExecutionIdOrKey} - Update test execution",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testExecutionIdOrKey": {
+            "pattern": "([0-9]+)|(.+-E[0-9]+)",
+            "type": "string",
+            "description": "The ID or key of the test execution. Test execution keys are of the format [A-Z]+-E[0-9]+"
+          },
+          "body": {
+            "type": "object",
+            "properties": {
+              "statusName": {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string",
+                "description": "The status name.",
+                "example": "In Progress"
+              },
+              "environmentName": {
+                "type": "string",
+                "description": "Environment assigned to the test case.",
+                "example": "Chrome Latest Version"
+              },
+              "actualEndDate": {
+                "type": "string",
+                "description": "The actual end date of the test cycle. Format: yyyy-MM-dd'T'HH:mm:ss'Z'",
+                "format": "date-time",
+                "example": "2018-05-20T13:15:13Z"
+              },
+              "executionTime": {
+                "minimum": 0,
+                "type": "integer",
+                "description": "Actual test execution time in milliseconds.",
+                "format": "int64",
+                "example": 120000
+              },
+              "executedById": {
+                "pattern": "^[-:a-zA-Z0-9]{1,128}$",
+                "type": "string",
+                "description": "Atlassian Account ID of the Jira user.",
+                "nullable": true,
+                "example": "5b10a2844c20165700ede21g"
+              },
+              "assignedToId": {},
+              "comment": {
+                "type": "string",
+                "description": "Comment added against overall test case execution.",
+                "nullable": true,
+                "example": "Test failed user could not login"
+              }
+            }
+          }
+        },
+        "required": [
+          "testExecutionIdOrKey",
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.getTestExecutionTestSteps",
+      "description": "[GET] /testexecutions/{testExecutionIdOrKey}/teststeps - Get test steps",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testExecutionIdOrKey": {
+            "pattern": "([0-9]+)|(.+-E[0-9]+)",
+            "type": "string",
+            "description": "The ID or key of the test execution. Test execution keys are of the format [A-Z]+-E[0-9]+"
+          },
+          "maxResults": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "default": 10,
+            "description": "Specifies the maximum number of results to return in a single call. The default value is 10, and the maximum value that can be requested is 1000.\n\nNote that the server may enforce a lower limit than requested, depending on resource availability or other internal constraints. If this happens, the result set may be truncated. Always check the maxResults value in the response to confirm how many results were actually returned.\n"
+          },
+          "startAt": {
+            "maximum": 1000000,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64",
+            "default": 0,
+            "description": "Zero-indexed starting position. Should be a multiple of maxResults."
+          },
+          "testDataRowNumber": {
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64",
+            "description": "The id of the test data row to retrieve."
+          }
+        },
+        "required": [
+          "testExecutionIdOrKey"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.putTestExecutionTestSteps",
+      "description": "[PUT] /testexecutions/{testExecutionIdOrKey}/teststeps - Update test steps",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testExecutionIdOrKey": {
+            "pattern": "([0-9]+)|(.+-E[0-9]+)",
+            "type": "string",
+            "description": "The ID or key of the test execution. Test execution keys are of the format [A-Z]+-E[0-9]+"
+          },
+          "body": {
+            "type": "object",
+            "properties": {
+              "steps": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "actualResult": {
+                      "type": "string",
+                      "description": "The actual result.",
+                      "example": "User logged in successfully"
+                    },
+                    "statusName": {
+                      "maxLength": 255,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "The status name.",
+                      "example": "In Progress"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "testExecutionIdOrKey",
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.syncTestExecutionScript",
+      "description": "[POST] /testexecutions/{testExecutionIdOrKey}/teststeps/sync - Sync test execution",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testExecutionIdOrKey": {
+            "pattern": "([0-9]+)|(.+-E[0-9]+)",
+            "type": "string",
+            "description": "The ID or key of the test execution. Test execution keys are of the format [A-Z]+-E[0-9]+"
+          }
+        },
+        "required": [
+          "testExecutionIdOrKey"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.listTestExecutionLinks",
+      "description": "[GET] /testexecutions/{testExecutionIdOrKey}/links - Get links",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testExecutionIdOrKey": {
+            "pattern": "([0-9]+)|(.+-E[0-9]+)",
+            "type": "string",
+            "description": "The ID or key of the test execution. Test execution keys are of the format [A-Z]+-E[0-9]+"
+          }
+        },
+        "required": [
+          "testExecutionIdOrKey"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.createTestExecutionIssueLink",
+      "description": "[POST] /testexecutions/{testExecutionIdOrKey}/links/issues - Create issue link",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testExecutionIdOrKey": {
+            "pattern": "([0-9]+)|(.+-E[0-9]+)",
+            "type": "string",
+            "description": "The ID or key of the test execution. Test execution keys are of the format [A-Z]+-E[0-9]+"
+          },
+          "body": {
+            "required": [
+              "issueId"
+            ],
+            "type": "object",
+            "properties": {
+              "issueId": {
+                "minimum": 1,
+                "type": "integer",
+                "description": "The Jira issue ID",
+                "format": "int64",
+                "example": 10100
+              }
+            }
+          }
+        },
+        "required": [
+          "testExecutionIdOrKey",
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.uploadTestExecutionAttachment",
+      "description": "[PUT] /testexecutions/{testExecutionIdOrKey}/attachments/{fileName} - Upload attachment",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "testExecutionIdOrKey": {
+            "pattern": "([0-9]+)|(.+-E[0-9]+)",
+            "type": "string",
+            "description": "The ID or key of the test execution. Test execution keys are of the format [A-Z]+-E[0-9]+"
+          },
+          "fileName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string",
+            "description": "The name of the file being uploaded, including its extension (for example, `screenshot.png`).\nThis is used as the attachment's display name. URL-encode any special characters and keep\nthe name to 255 characters or fewer.\n"
+          }
+        },
+        "required": [
+          "testExecutionIdOrKey",
+          "fileName"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.listFolders",
+      "description": "[GET] /folders - Get folders",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "maxResults": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "default": 10,
+            "description": "Specifies the maximum number of results to return in a single call. The default value is 10, and the maximum value that can be requested is 1000.\n\nNote that the server may enforce a lower limit than requested, depending on resource availability or other internal constraints. If this happens, the result set may be truncated. Always check the maxResults value in the response to confirm how many results were actually returned.\n"
+          },
+          "startAt": {
+            "maximum": 1000000,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64",
+            "default": 0,
+            "description": "Zero-indexed starting position. Should be a multiple of maxResults."
+          },
+          "projectKey": {
+            "pattern": "([A-Z][A-Z_0-9]+)",
+            "type": "string",
+            "description": "Jira project key filter"
+          },
+          "folderType": {
+            "type": "string",
+            "description": "Folder type filter. Either `\"TEST_CASE\"`, `\"TEST_PLAN\"` or `\"TEST_CYCLE\"`"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.createFolder",
+      "description": "[POST] /folders - Create folder",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "required": [
+              "folderType",
+              "name",
+              "projectKey"
+            ],
+            "type": "object",
+            "properties": {
+              "parentId": {
+                "minimum": 1,
+                "type": "integer",
+                "description": "Folder ID of the parent folder. Must be `null` for root folders.",
+                "format": "int64"
+              },
+              "name": {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string",
+                "description": "Folder name. Folder name must not contain `/` and `\\` characters."
+              },
+              "projectKey": {
+                "pattern": "([A-Z][A-Z_0-9]+)",
+                "type": "string",
+                "description": "Jira project key.",
+                "example": "TIS"
+              },
+              "folderType": {
+                "type": "string",
+                "description": "Valid values: `\"TEST_CASE\"`, `\"TEST_PLAN\"`, `\"TEST_CYCLE\"`"
+              }
+            }
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.getFolder",
+      "description": "[GET] /folders/{folderId} - Get folder",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "folderId": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "description": "Folder ID"
+          }
+        },
+        "required": [
+          "folderId"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.listPriorities",
+      "description": "[GET] /priorities - Get priorities",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "maxResults": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "default": 10,
+            "description": "Specifies the maximum number of results to return in a single call. The default value is 10, and the maximum value that can be requested is 1000.\n\nNote that the server may enforce a lower limit than requested, depending on resource availability or other internal constraints. If this happens, the result set may be truncated. Always check the maxResults value in the response to confirm how many results were actually returned.\n"
+          },
+          "startAt": {
+            "maximum": 1000000,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64",
+            "default": 0,
+            "description": "Zero-indexed starting position. Should be a multiple of maxResults."
+          },
+          "projectKey": {
+            "pattern": "([A-Z][A-Z_0-9]+)",
+            "type": "string",
+            "description": "Jira project key filter"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.createPriority",
+      "description": "[POST] /priorities - Create a priority",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "required": [
+              "name",
+              "projectKey"
+            ],
+            "type": "object",
+            "properties": {
+              "projectKey": {
+                "pattern": "([A-Z][A-Z_0-9]+)",
+                "type": "string",
+                "description": "Jira project key.",
+                "example": "TIS"
+              },
+              "name": {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string",
+                "description": "The priority name.",
+                "example": "Critical"
+              },
+              "description": {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string",
+                "description": "The priority description.",
+                "example": "Top level priority"
+              },
+              "color": {
+                "pattern": "#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})",
+                "type": "string",
+                "description": "A color in hexadecimal format",
+                "example": "#FFF or #FFFFFF"
+              }
+            }
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.getPriority",
+      "description": "[GET] /priorities/{priorityId} - Get priority",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "priorityId": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "priorityId"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.updatePriority",
+      "description": "[PUT] /priorities/{priorityId} - Update priority",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "priorityId": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64"
+          },
+          "body": {
+            "required": [
+              "default",
+              "id",
+              "index",
+              "name",
+              "project"
+            ],
+            "type": "object",
+            "properties": {
+              "id": {
+                "minimum": 1,
+                "type": "integer",
+                "description": "The ID of the entity",
+                "format": "int64",
+                "example": 1
+              },
+              "project": {
+                "description": "ID and link relative to Zephyr project.",
+                "example": {
+                  "id": 10005,
+                  "self": "https://<api-base-url>/projects/10005"
+                },
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ResourceId"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                ]
+              },
+              "name": {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string",
+                "description": "The priority name.",
+                "example": "Critical"
+              },
+              "description": {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string",
+                "description": "The priority description.",
+                "example": "Top level priority"
+              },
+              "index": {
+                "minimum": 0,
+                "type": "integer",
+                "format": "int64",
+                "example": 1
+              },
+              "default": {
+                "type": "boolean"
+              },
+              "color": {
+                "pattern": "#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})",
+                "type": "string",
+                "description": "A color in hexadecimal format",
+                "example": "#FFF or #FFFFFF"
+              }
+            }
+          }
+        },
+        "required": [
+          "priorityId",
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.listStatuses",
+      "description": "[GET] /statuses - Get statuses",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "maxResults": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64",
+            "default": 10,
+            "description": "Specifies the maximum number of results to return in a single call. The default value is 10, and the maximum value that can be requested is 1000.\n\nNote that the server may enforce a lower limit than requested, depending on resource availability or other internal constraints. If this happens, the result set may be truncated. Always check the maxResults value in the response to confirm how many results were actually returned.\n"
+          },
+          "startAt": {
+            "maximum": 1000000,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64",
+            "default": 0,
+            "description": "Zero-indexed starting position. Should be a multiple of maxResults."
+          },
+          "projectKey": {
+            "pattern": "([A-Z][A-Z_0-9]+)",
+            "type": "string",
+            "description": "Jira project key filter"
+          },
+          "statusType": {
+            "type": "string",
+            "enum": [
+              "TEST_CASE",
+              "TEST_PLAN",
+              "TEST_CYCLE",
+              "TEST_EXECUTION"
+            ],
+            "description": "Determines which type of entity the status belongs to."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.createStatus",
+      "description": "[POST] /statuses - Create a status",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "required": [
+              "name",
+              "projectKey",
+              "type"
+            ],
+            "type": "object",
+            "properties": {
+              "projectKey": {
+                "pattern": "([A-Z][A-Z_0-9]+)",
+                "type": "string",
+                "description": "Jira project key.",
+                "example": "TIS"
+              },
+              "name": {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string",
+                "description": "The status name.",
+                "example": "In Progress"
+              },
+              "type": {
+                "type": "string",
+                "description": "Determines which type of entity the status belongs to.",
+                "enum": [
+                  "TEST_CASE",
+                  "TEST_PLAN",
+                  "TEST_CYCLE",
+                  "TEST_EXECUTION"
+                ]
+              },
+              "description": {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string",
+                "description": "The status description.",
+                "example": "An important status"
+              },
+              "color": {
+                "pattern": "#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})",
+                "type": "string",
+                "description": "A color in hexadecimal format",
+                "example": "#FFF or #FFFFFF"
+              }
+            }
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.getStatus",
+      "description": "[GET] /statuses/{statusId} - Get status",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "statusId": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "statusId"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "zephyr.updateStatus",
+      "description": "[PUT] /statuses/{statusId} - Update status",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "statusId": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64"
+          },
+          "body": {
+            "required": [
+              "archived",
+              "default",
+              "id",
+              "index",
+              "name",
+              "project"
+            ],
+            "type": "object",
+            "properties": {
+              "id": {
+                "minimum": 1,
+                "type": "integer",
+                "description": "The ID of the entity",
+                "format": "int64",
+                "example": 1
+              },
+              "project": {
+                "description": "ID and link relative to Zephyr project.",
+                "example": {
+                  "id": 10005,
+                  "self": "https://<api-base-url>/projects/10005"
+                },
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ResourceId"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                ]
+              },
+              "name": {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string",
+                "description": "The status name.",
+                "example": "In Progress"
+              },
+              "description": {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string",
+                "description": "The status description.",
+                "example": "An important status"
+              },
+              "index": {
+                "minimum": 0,
+                "type": "integer",
+                "format": "int64",
+                "example": 1
+              },
+              "archived": {
+                "type": "boolean"
+              },
+              "default": {
+                "type": "boolean"
+              },
+              "color": {
+                "pattern": "#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})",
+                "type": "string",
+                "description": "A color in hexadecimal format",
+                "example": "#FFF or #FFFFFF"
+              }
+            }
+          }
+        },
+        "required": [
+          "statusId",
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ]
+}

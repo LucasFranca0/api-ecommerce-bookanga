@@ -40,3 +40,7 @@ Thumbs.db
 # Logs
 logs/
 *.log
+
+# Node (MCP)
+utils/mcp/node_modules/
+utils/mcp/dist/
